@@ -7,7 +7,7 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   sitemap: {
-    hostname: 'https://your-name.github.io'
+    hostname: 'https://liquidweb9.github.io/blog/'
   },
   head: [
     ['meta', { name: 'theme-color', content: '#3b67f2' }],

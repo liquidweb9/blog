@@ -4,6 +4,7 @@ export default defineConfig({
   lang: 'zh-CN',
   title: '邓厚锐',
   description: '邓厚锐的个人博客、学习笔记与项目实践',
+  base: '/blog/',
   cleanUrls: true,
   lastUpdated: true,
   sitemap: {

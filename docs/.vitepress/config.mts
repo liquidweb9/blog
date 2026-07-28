@@ -49,7 +49,13 @@ export default defineConfig({
           text: 'Agent Engineering',
           items: [
             { text: '概览', link: '/notes/agent-engineering/' },
-            { text: 'Agent 基础', link: '/notes/agent-engineering/agent-basics' }
+            { text: 'Agent 基础', link: '/notes/agent-engineering/agent-basics' },
+            { text: 'Agent Loop 与 Graph', link: '/notes/agent-engineering/agent-loop' },
+            { text: 'Function Call 与 MCP', link: '/notes/agent-engineering/function_call_mcp_engineering' },
+            { text: 'RAG 工程', link: '/notes/agent-engineering/RAG' },
+            { text: 'Agent Memory', link: '/notes/agent-engineering/memory' },
+            { text: 'Context 与 Harness', link: '/notes/agent-engineering/harness-engineering' },
+            { text: '安全与可靠性', link: '/notes/agent-engineering/agent-security' }
           ]
         }
       ],

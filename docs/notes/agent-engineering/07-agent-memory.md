@@ -1,4 +1,4 @@
-﻿# Agent Memory
+# Agent Memory
 
 > 本文讨论的 **Memory**，主要指大语言模型应用、RAG 系统和 Agent 系统中的记忆机制，而不是神经网络参数本身的“记忆能力”。
 >
@@ -2195,6 +2195,17 @@ Raw Log → Episode → Fact / Reflection / Procedure
 最终答案正确不代表 Memory 正确。
 
 模型可能依靠自身知识猜对，也可能在记忆错误时偶然生成正确答案。必须单独测试写入、检索、更新和删除。
+
+
+### 34.6 Memory 版本与发布管理
+
+Memory 的行为由数据和策略共同决定。每条记忆与每次 Trace 至少应绑定 `schema_version`、`embedding_version`、`write_policy_version`、`retrieval_policy_version`、`forgetting_policy_version`，以及参与抽取、摘要和重排的 Prompt 与 Model 版本。
+
+升级建议采用：离线基线评估 → 后台幂等重嵌入或迁移 → 新旧索引双写 → 灰度双读对比 → 切换主读 → 保留旧索引作为回滚窗口 → 停止双写并清理。大规模重嵌入应支持断点续传、批次校验和幂等写入；迁移期间，增量写入与删除请求需要同步到新旧版本。双读只用于 Runtime 中的影子对比，不应把两套结果同时注入 Context。
+
+回滚必须同时考虑代码、索引和数据 Schema 的兼容性。如果新版本写入了旧版本无法解析的数据，应使用兼容字段、迁移适配器或继续双写，不能只回滚检索代码。
+
+Trace 应记录 `run_id`、Memory 与来源 ID、各策略版本、查询过滤与排序参数、返回记录和分数、写入/合并/遗忘原因、迁移批次和索引版本，使一次记忆决策可以复现和审计。
 
 ## 35. 核心认识总结
 

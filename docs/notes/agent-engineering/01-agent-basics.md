@@ -1,4 +1,4 @@
-﻿# Agent 基础
+# Agent 基础
 
 > Agent 不是一种单独的模型，而是一套以模型参与决策、以运行时约束执行的软件系统。模型负责处理语义和不确定性，普通程序负责状态、权限、副作用与可靠性。
 
@@ -149,3 +149,33 @@ return finalize(state)
 理解 Agent 的第一步，是把模型从“系统本身”还原为“系统中的一个决策组件”。一个可用的 Agent 不只要能完成任务，还必须能解释当前状态、限制行动边界、处理失败，并让工程团队持续评估和改进。
 
 下一篇可继续阅读 [Agent Loop 与 Agent Graph](./02-agent-loop)，理解这些组件如何被组织成具体执行流程。
+## 10. 深入理解：Agent 是受约束的决策系统
+
+从工程角度，Agent 可以表示为策略 `π(a | s, o, g, c)`：它根据内部状态 `s`、环境观察 `o`、目标 `g` 和约束 `c` 选择动作 `a`。LLM 只是策略的一种实现，状态库、工具执行器、权限系统和验证器共同决定系统行为。由此可知，模型能力提升不能自动解决幂等、授权、恢复和审计问题。
+
+一次 Run 应至少区分四类数据：不可变输入与配置快照、可演进业务状态、追加式事件、外部 Artifact 引用。消息历史只是事件的一部分。运行时状态必须有 Schema 和版本，状态更新最好通过 Reducer 完成，从而支持回放、并发控制和迁移。
+
+### 10.1 确定性外壳与概率性内核
+
+把适合判断的任务交给模型，把必须保证的规则留在代码中：模型可以判断意图、生成候选计划和概括文本；代码负责权限、金额上限、Schema、状态转换、重试上限与终止条件。生产设计的核心不是消除不确定性，而是把不确定性限制在可评估、可回滚的边界内。
+
+### 10.2 自主性预算
+
+自主性不是开关，而是一组预算：允许使用哪些工具、最大步骤数、最大成本、可访问的数据范围、可产生的副作用等级、何时必须让人介入。任务越开放、环境越动态，Agent 越有价值；动作越不可逆、损失上界越高，确定性工作流和审批越重要。
+
+### 10.3 最小生产数据模型
+
+```ts
+interface AgentRun {
+  runId: string
+  tenantId: string
+  status: 'queued' | 'running' | 'waiting' | 'completed' | 'failed' | 'cancelled'
+  objective: string
+  stateVersion: number
+  config: { graph: string; prompt: string; modelPolicy: string; toolset: string }
+  budgets: { steps: number; tokens: number; deadlineAt: string }
+  termination?: { code: string; detail: string }
+}
+```
+
+设计评审时应追问：事实源在哪里，崩溃后从哪里恢复，副作用怎样去重，输入如何分级，错误由谁处理，成功由什么验证。能回答这些问题，才从“会调用工具的 Demo”进入 Agent Engineering。

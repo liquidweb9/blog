@@ -1,29 +1,29 @@
 # Agent Engineering
 
-Agent Engineering 关注的不是如何让模型“多说一点”，而是如何把不稳定的模型能力组织成一个可控制、可观察、可恢复、可持续改进的软件系统。
+Agent Engineering 关注的不是如何让模型"多说一点"，而是如何把不稳定的模型能力组织成一个可控制、可观察、可恢复、可持续改进的软件系统。
 
 这组笔记以一条完整的工程链路展开：先建立 Agent 的基本概念，再理解执行循环和工具协议，随后处理上下文、检索与记忆，最后讨论运行时、安全和可靠性。各篇内容相互关联，但都可以独立阅读。
 
-## 推荐阅读顺序
+## 基础概念
 
-### 1. 建立执行模型
+- [Agent 基础](./01-agent-basics) — Agent 与普通 LLM 应用的差异，以及工程系统的基本组成
+- [Agent Loop](./02-agent-loop) — 任务如何在状态、节点、工具和终止条件之间循环流转
+- [Agent Graph](./03-agent-graph) — 将隐式控制流变成显式图结构的执行编排
 
-- [Agent 基础](./agent-basics)：Agent 与普通 LLM 应用的差异，以及工程系统的基本组成
-- [Agent Loop 与 Agent Graph](./agent-loop)：任务如何在状态、节点、工具和终止条件之间流转
+## 工具与协议
 
-### 2. 连接外部能力
+- [Function Call](./04-function-call) — 模型如何以结构化形式提出工具调用
+- [MCP](./05-mcp) — AI 应用如何通过统一协议连接外部能力
 
-- [Function Call 与 MCP](./function_call_mcp_engineering)：模型如何提出工具调用，运行时如何通过统一协议接入能力
+## 信息管理
 
-### 3. 管理模型所见的信息
+- [RAG 工程](./06-rag-engineering) — 从文档解析、检索和重排到生成、引用与评估
+- [Agent Memory](./07-agent-memory) — 记忆的写入、检索、更新、冲突处理和遗忘
+- [Context 与 Harness Engineering](./08-harness-engineering) — 从单次提示词扩展到上下文管理和完整运行时
 
-- [RAG 工程](./RAG)：从文档解析、检索和重排到生成、引用与评估
-- [Agent Memory](./memory)：记忆的写入、检索、更新、冲突处理和遗忘
-- [Context 与 Harness Engineering](./harness-engineering)：从单次提示词扩展到上下文管理和完整运行时
+## 生产实践
 
-### 4. 面向生产环境
-
-- [Agent 安全与可靠性](./agent-security)：权限、副作用、注入、幂等、并发、降级和审计
+- [Agent 安全与可靠性](./09-agent-security) — 权限、副作用、注入、幂等、并发、降级和审计
 
 ## 贯穿各篇的核心问题
 

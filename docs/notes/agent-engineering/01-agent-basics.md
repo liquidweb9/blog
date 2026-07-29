@@ -148,4 +148,4 @@ return finalize(state)
 
 理解 Agent 的第一步，是把模型从“系统本身”还原为“系统中的一个决策组件”。一个可用的 Agent 不只要能完成任务，还必须能解释当前状态、限制行动边界、处理失败，并让工程团队持续评估和改进。
 
-下一篇可继续阅读 [Agent Loop 与 Agent Graph](./agent-loop)，理解这些组件如何被组织成具体执行流程。
+下一篇可继续阅读 [Agent Loop 与 Agent Graph](./02-agent-loop)，理解这些组件如何被组织成具体执行流程。

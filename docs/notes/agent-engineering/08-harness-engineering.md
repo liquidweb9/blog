@@ -2,7 +2,7 @@
 
 > Prompt Engineering 设计单次模型调用的指令，Context Engineering 决定本轮推理应该看到什么，Harness Engineering 则负责让模型、上下文、工具和状态组成一个可以持续运行的系统。
 
-## 1. 引言：LLM 工程关注点为什么不断扩大
+## 引言：LLM 工程关注点为什么不断扩大
 
 大语言模型应用最初大多采用单轮调用：
 
@@ -75,7 +75,7 @@
 > Prompt Engineering 管理“怎样告诉模型”；
 > Context Engineering 管理“这一轮让模型看到什么”；
 > Harness Engineering 管理“模型如何在完整系统中持续工作”。
-##  三者的整体关系
+## 三者的整体关系
 
 从工程范围上，可以将三者近似理解为嵌套关系：
 
@@ -87,13 +87,13 @@ Harness Engineering
 
 或者表示为：
 
-[
+$$
 \text{Prompt Engineering}
 \subset
 \text{Context Engineering}
 \subset
 \text{Harness Engineering}
-]
+$$
 
 但这个包含关系只是帮助理解的工程抽象，并不是严格的数学定义。
 
@@ -115,9 +115,9 @@ Harness Engineering
 | RAG 的位置       | 通常不属于核心 Prompt  | 一种上下文获取方法           | 作为系统中的检索组件运行           |
 | 是否涉及工具执行 | 描述如何使用工具       | 决定提供哪些工具及结果       | 真正执行、授权、重试和审计工具     |
 | 是否涉及故障恢复 | 通常不涉及             | 可保留失败上下文             | 明确设计重试、回滚和降级           |
-##  Prompt Engineering
+## Prompt Engineering
 
-###  定义
+### 定义
 
 Prompt Engineering 是设计、组织和优化模型输入指令的过程，其目标是让模型：
 
@@ -143,11 +143,11 @@ Prompt Engineering 最适合解决的问题包括：
 - 不同输入下输出风格不一致。
 
 清晰、具体的指令、明确的输出约束以及具有代表性的示例，通常比模糊地要求模型“做得专业一点”更可靠。官方实践指南也普遍强调明确指令、分步骤描述和少量高质量示例的重要性。
-###  一个完整 Prompt 的基本结构
+### 一个完整 Prompt 的基本结构
 
 一个工程化 Prompt 通常可以拆为以下部分。
 
-####  角色与职责
+#### 角色与职责
 
 说明模型在当前任务中应承担什么职责。
 
@@ -177,7 +177,7 @@ Prompt Engineering 最适合解决的问题包括：
 你是一名负责审查生产级 Python 后端代码的高级工程师，
 重点检查并发安全、数据库事务、错误处理和可测试性。
 ```
-####  背景 Context
+#### 背景 Context
 
 解释任务为什么存在，以及任务所处的环境。
 
@@ -195,7 +195,7 @@ Prompt Engineering 最适合解决的问题包括：
 
 需要注意，这里的“背景”仍然属于 Prompt 内容。
 而在更大的系统中，背景可能由 Context Engineering 动态检索和注入。
-####  明确任务
+#### 明确任务
 
 任务应描述为可执行动作，而不是宽泛愿望。
 
@@ -218,7 +218,7 @@ Prompt Engineering 最适合解决的问题包括：
 - 需要执行的动作；
 - 判断标准；
 - 期望结果。
-####  输入资料
+#### 输入资料
 
 使用明显的边界将资料与指令分开。
 
@@ -247,7 +247,7 @@ Prompt Engineering 最适合解决的问题包括：
 ```
 
 在处理长文档或多文档输入时，对资料进行结构化分隔是常见的 Prompt 设计方法。
-####  约束条件
+#### 约束条件
 
 约束用于明确模型不能做什么，以及必须满足什么。
 
@@ -271,7 +271,7 @@ Prompt Engineering 最适合解决的问题包括：
 - 安全规则；
 - 禁止修改的部分；
 - 不确定性处理方式。
-####  处理步骤
+#### 处理步骤
 
 对于复杂任务，可以给出过程框架：
 
@@ -287,7 +287,7 @@ Prompt Engineering 最适合解决的问题包括：
 ```
 
 它的作用不是要求模型展示全部内部推理，而是规定可观察的工作流程和输出阶段。
-####  输出契约
+#### 输出契约
 
 输出契约比简单的“使用 Markdown”更加具体。
 
@@ -320,7 +320,7 @@ Prompt Engineering 最适合解决的问题包括：
 ```
 
 此时，输出格式不只是展示样式，而是模型与下游程序之间的接口契约。
-####  示例
+#### 示例
 
 少量、典型且相互有差异的示例，可以帮助模型学习：
 
@@ -339,9 +339,9 @@ Prompt Engineering 最适合解决的问题包括：
 ```
 
 示例应当具有代表性，而不是把所有可能情况都堆进 Prompt。过多边缘案例会造成 Prompt 膨胀，并可能产生规则冲突。
-###  Prompt Engineering 的常见技术
+### Prompt Engineering 的常见技术
 
-####  Zero-shot Prompting
+#### Zero-shot Prompting
 
 只提供任务，不提供示例。
 
@@ -355,7 +355,7 @@ Prompt Engineering 最适合解决的问题包括：
 - 模型熟悉任务；
 - 分类边界清晰；
 - 输出要求较低。
-####  Few-shot Prompting
+#### Few-shot Prompting
 
 提供少量输入输出示例。
 
@@ -365,7 +365,7 @@ Prompt Engineering 最适合解决的问题包括：
 - 特殊格式；
 - 企业内部术语；
 - 边界容易混淆的任务。
-####  Prompt Chaining
+#### Prompt Chaining
 
 将复杂任务拆成多个模型调用：
 
@@ -380,7 +380,7 @@ Prompt Engineering 最适合解决的问题包括：
 ```
 
 它的优势是每一步任务更简单，并且可以在步骤之间加入程序验证。Prompt Chaining 属于 Prompt 技术，也可能成为 Harness 中的一种固定工作流。Anthropic 将这种模式描述为适合可以被清晰拆分的任务，并可在中间增加程序化检查。
-####  Routing
+#### Routing
 
 先判断输入类型，再选择专用 Prompt：
 
@@ -394,7 +394,7 @@ Prompt Engineering 最适合解决的问题包括：
 ```
 
 Routing 的核心价值是避免一个 Prompt 同时承担过多职责。
-####  Evaluator–Optimizer
+#### Evaluator–Optimizer
 
 一个模型生成结果，另一个模型或程序检查结果：
 
@@ -410,7 +410,7 @@ Generator → Revised Result
 
 - 评审标准属于 Prompt；
 - 多次调用、循环和终止条件属于 Harness。
-###  Prompt Engineering 的边界
+### Prompt Engineering 的边界
 
 Prompt Engineering 可以告诉模型：
 
@@ -450,7 +450,7 @@ Prompt 约束：告诉模型应该怎么做
 ```
 
 才是确定性的系统约束。
-###  Prompt Engineering 的常见误区
+### Prompt Engineering 的常见误区
 
 ### 误区一：Prompt 越长越好
 
@@ -510,9 +510,9 @@ Prompt 约束：告诉模型应该怎么做
 - 绑定模型版本；
 - 支持回滚；
 - 监测回归。
-##  Context Engineering
+## Context Engineering
 
-###  定义
+### 定义
 
 Context Engineering 是针对每一次模型推理，动态选择、构造、组织和更新上下文的工程过程。
 
@@ -520,10 +520,10 @@ Context Engineering 是针对每一次模型推理，动态选择、构造、组
 
 一个典型上下文可以表示为：
 
-[
+$$
 C_t =
 I_t + H_t + R_t + T_t + O_t + S_t + M_t
-]
+$$
 
 其中：
 
@@ -549,7 +549,7 @@ I_t + H_t + R_t + T_t + O_t + S_t + M_t
 ```
 
 Anthropic 将 Context Engineering 描述为：从不断变化的候选信息中，选择进入有限上下文窗口的内容。随着 Agent 多轮调用工具、积累消息和状态，这种选择会在每一轮持续发生。
-###  Context 不是越多越好
+### Context 不是越多越好
 
 更大的上下文窗口不等于更高的任务质量。
 
@@ -570,8 +570,8 @@ Anthropic 将 Context Engineering 描述为：从不断变化的候选信息中�
 
 可以用一个抽象目标函数表示：
 
-`	ext
-[ C_t^*
+$$
+$$ C_t^*
 
 \arg\max_{C_t}
 \left[
@@ -580,14 +580,14 @@ Q(C_t, G_t)
 -\lambda_2 L(C_t)
 -\lambda_3 K(C_t)
 \right]
-]
+$$
 `
 
 约束为：
 
-[
+$$
 \operatorname{Tokens}(C_t) \le B_t
-]
+$$
 
 其中：
 
@@ -599,9 +599,9 @@ Q(C_t, G_t)
 - (\lambda)：不同成本的权重。
 
 这不是行业标准公式，而是对 Context Engineering 目标的工程化抽象。
-###  Context 的主要来源
+### Context 的主要来源
 
-####  静态指令
+#### 静态指令
 
 例如：
 
@@ -612,7 +612,7 @@ Q(C_t, G_t)
 - 安全规则。
 
 这些内容通常在每次请求中存在，但也可能根据用户、任务或环境动态生成。
-####  当前用户输入
+#### 当前用户输入
 
 包括：
 
@@ -628,7 +628,7 @@ Q(C_t, G_t)
 - Prompt Injection；
 - 与系统规则冲突的指令；
 - 不完整信息。
-####  历史对话
+#### 历史对话
 
 历史对话可以提供：
 
@@ -648,7 +648,7 @@ Q(C_t, G_t)
 普通历史：摘要压缩
 无关历史：删除
 ```
-####  检索资料
+#### 检索资料
 
 可能来自：
 
@@ -672,7 +672,7 @@ Q(C_t, G_t)
 - 版本。
 
 否则，模型很难判断不同资料之间的优先级。
-####  工具描述
+#### 工具描述
 
 工具定义本身也占用上下文。
 
@@ -705,7 +705,7 @@ Q(C_t, G_t)
 - 是否需要隐藏高风险工具。
 
 工具不是越多越好。工具边界含糊会直接增加模型决策难度。
-####  工具结果
+#### 工具结果
 
 工具结果通常是上下文膨胀的重要来源。
 
@@ -728,7 +728,7 @@ Q(C_t, G_t)
 - 异常值检查。
 
 旧工具结果在失去后续价值后，应当删除或压缩。对长任务进行上下文压缩时，清理历史工具结果通常是较安全的做法之一。
-####  任务状态
+#### 任务状态
 
 任务状态不同于自然语言对话。
 
@@ -750,12 +750,12 @@ Q(C_t, G_t)
   ],
   "failed_checks": [
     "expired_refresh_token_test"
-  ]
+  $$
 }
 ```
 
 结构化状态比让模型从几十轮对话中“猜测当前进度”更加可靠。
-####  记忆
+#### 记忆
 
 记忆可以分为：
 
@@ -795,9 +795,9 @@ Q(C_t, G_t)
 - 代码规范。
 
 记忆不是简单的“保存所有聊天记录”，而是对经验进行结构化和选择性持久化。
-##  Context Engineering 的核心操作
+## Context Engineering 的核心操作
 
-###  Selection：选择
+### Selection：选择
 
 从候选信息中选择当前步骤真正需要的内容。
 
@@ -813,7 +813,7 @@ Q(C_t, G_t)
 - 前端样式；
 - README 全文；
 - 所有部署日志。
-###  Retrieval：检索
+### Retrieval：检索
 
 根据当前任务动态获取资料。
 
@@ -839,10 +839,10 @@ Q(C_t, G_t)
 
 检索不应只关心语义相似度，还应考虑：
 
-[
+$$
 Score(d)=
 w_1R(d)+w_2F(d)+w_3A(d)+w_4T(d)-w_5D(d)
-]
+$$
 
 其中：
 
@@ -851,7 +851,7 @@ w_1R(d)+w_2F(d)+w_3A(d)+w_4T(d)-w_5D(d)
 - (A(d))：来源权威性；
 - (T(d))：对当前任务阶段的适用性；
 - (D(d))：与其他结果的重复度。
-###  Compression：压缩
+### Compression：压缩
 
 压缩的目标是保留：
 
@@ -889,7 +889,7 @@ w_1R(d)+w_2F(d)+w_3A(d)+w_4T(d)-w_5D(d)
 ```
 
 对于长任务，压缩并不只是缩短文字，而是在上下文窗口之间传递高保真任务状态。Anthropic 的长任务实践中也采用了压缩、结构化进度文件和跨会话状态记录。
-###  Isolation：隔离
+### Isolation：隔离
 
 不同信息不一定应该进入同一个上下文。
 
@@ -918,7 +918,7 @@ w_1R(d)+w_2F(d)+w_3A(d)+w_4T(d)-w_5D(d)
 - 无关资料占据上下文；
 - 敏感数据扩散；
 - 未可信内容直接影响主 Agent。
-###  Ordering：排序
+### Ordering：排序
 
 上下文顺序会影响模型理解。
 
@@ -935,7 +935,7 @@ w_1R(d)+w_2F(d)+w_3A(d)+w_4T(d)-w_5D(d)
 ```
 
 但具体顺序应根据模型和任务通过评估确定，而不能假设存在适用于所有模型的唯一最佳顺序。
-###  Progressive Disclosure：渐进式加载
+### Progressive Disclosure：渐进式加载
 
 不要一开始就向模型提供所有信息。
 
@@ -961,7 +961,7 @@ w_1R(d)+w_2F(d)+w_3A(d)+w_4T(d)-w_5D(d)
 - 上下文噪声；
 - 不相关资料干扰；
 - 敏感信息暴露范围。
-###  Just-in-Time Context
+### Just-in-Time Context
 
 传统 RAG 通常在模型推理前完成一次检索：
 
@@ -986,7 +986,7 @@ Agentic Context Retrieval 则允许模型在执行过程中按需搜索：
 ```
 
 这意味着 Context 不再是请求开始前一次性组装完成的，而是随着任务进展动态变化。
-##  RAG 与 Context Engineering 的关系
+## RAG 与 Context Engineering 的关系
 
 RAG，即 Retrieval-Augmented Generation，是通过外部检索为生成过程提供资料的一类技术。
 
@@ -1039,9 +1039,9 @@ Context Engineering 除了检索，还需要处理：
 从信息角度看：它是 Context Engineering 的检索策略。
 从系统角度看：它是 Harness 中的一个基础设施组件。
 ```
-##  Harness Engineering
+## Harness Engineering
 
-###  定义
+### 定义
 
 Harness 原意是“马具、挽具”或“控制装置”。
 
@@ -1073,7 +1073,7 @@ Anthropic 在其 Agent 系统架构中将 Harness 描述为调用模型并将模
 因此，不应把 Harness Engineering 理解为已经完全标准化的技术规范。更合适的理解是：
 
 > 它是一种把 Agent 外部运行结构视为核心工程对象的系统思想。
-###  Harness 的基本架构
+### Harness 的基本架构
 
 ```mermaid
 flowchart TD
@@ -1101,8 +1101,8 @@ flowchart TD
 
 这里真正构成 Agent 能力的，不只是 LLM：
 
-`	ext
-[ \text{Agent Capability}
+$$
+$$ \text{Agent Capability}
 
 f(
 \text{Model},
@@ -1113,7 +1113,7 @@ f(
 \text{Control},
 \text{Verification}
 )
-]
+$$
 `
 
 模型是“认知核心”，Harness 则决定模型：
@@ -1123,9 +1123,9 @@ f(
 - 能执行到什么程度；
 - 失败后怎么办；
 - 怎样确认任务完成。
-##  Harness Engineering 的核心模块
+## Harness Engineering 的核心模块
 
-###  Context Manager
+### Context Manager
 
 负责：
 
@@ -1139,7 +1139,7 @@ f(
 - 清理旧工具结果。
 
 Context Engineering 是一种设计思想，而 Context Manager 是 Harness 中执行这些思想的具体模块。
-###  Tool System
+### Tool System
 
 工具系统通常至少包括：
 
@@ -1190,7 +1190,7 @@ Context Engineering 是一种设计思想，而 Context Manager 是 Harness 中�
 ```
 
 OpenAI 的 Agent 实践指南将工具划分为数据工具、行动工具和编排工具，并强调标准化、可复用和清晰定义的工具接口。
-###  Agent Loop
+### Agent Loop
 
 最基本的 Agent Loop 可以写成：
 
@@ -1250,7 +1250,7 @@ def run_agent(task, max_steps=20):
 8. 判断是否终止。
 
 OpenAI 将 Agent 的 Run 描述为一个持续调用模型的循环，直到模型给出最终输出、触发特定终止条件、发生错误或达到最大轮数。
-###  状态管理
+### 状态管理
 
 Agent 状态不应只存在于对话文本中。
 
@@ -1279,7 +1279,7 @@ class AgentState:
 - 哪些结果已验证；
 - 需要继续还是终止；
 - 崩溃后如何恢复。
-###  Memory System
+### Memory System
 
 Harness 中的记忆系统通常负责：
 
@@ -1309,7 +1309,7 @@ Harness 中的记忆系统通常负责：
 - 生命周期设置；
 - 来源记录；
 - 用户授权。
-###  Orchestration：任务编排
+### Orchestration：任务编排
 
 编排决定任务如何被拆解和执行。
 
@@ -1371,7 +1371,7 @@ VERIFYING
 ```
 
 并不是 Agent 越多越好。多 Agent 会增加通信成本、状态同步和错误传播问题。对于很多任务，单 Agent 配合清晰工具和工作流已经足够。OpenAI 和 Anthropic 的实践指南都建议从最简单的可行架构开始，再根据复杂度逐步扩展。
-###  Validation：验证
+### Validation：验证
 
 模型说“任务完成”不代表任务真的完成。
 
@@ -1423,7 +1423,7 @@ Harness 应使用外部证据验证结果。
 ```text
 运行确定性的测试来证明已经完成
 ```
-###  Evaluation：评估
+### Evaluation：评估
 
 验证通常针对一次具体运行，而 Evaluation 用于衡量系统整体表现。
 
@@ -1482,7 +1482,7 @@ Harness 应使用外部证据验证结果。
 ```text
 修改 Harness 后，过去能完成的任务是否仍然可以完成？
 ```
-###  Observability：可观测性
+### Observability：可观测性
 
 一个生产级 Agent 系统需要能够回答：
 
@@ -1529,7 +1529,7 @@ Harness 应使用外部证据验证结果。
 - 追踪权限和审计事件。
 
 OpenAI 的 Agent 工具体系也将工作流 Trace 和可观察性作为生产 Agent 的基础能力。
-###  权限、安全与约束
+### 权限、安全与约束
 
 Prompt 不能代替权限系统。
 
@@ -1568,7 +1568,7 @@ OpenAI 建议根据工具的读写属性、可逆性、账户权限和影响范�
 ```
 
 外部工具返回的内容本身也可能包含恶意指令，因此工具结果不仅是数据，也是潜在的 Prompt Injection 来源。安全边界需要同时覆盖模型、执行环境和外部内容。
-###  Failure Recovery：故障恢复
+### Failure Recovery：故障恢复
 
 Agent 失败并不总意味着整个任务必须重新开始。
 
@@ -1638,7 +1638,7 @@ Harness 应对错误进行分类。
 - 幂等键；
 - 补偿操作；
 - 操作日志。
-##  长时间运行 Agent 的 Harness
+## 长时间运行 Agent 的 Harness
 
 长任务会遇到一个核心问题：
 
@@ -1658,7 +1658,7 @@ Agent 还可能：
 
 一种更可靠的模式是：
 
-###  初始化阶段
+### 初始化阶段
 
 第一次运行负责：
 
@@ -1678,7 +1678,7 @@ tests/
 init.sh
 ```
 
-###  增量执行阶段
+### 增量执行阶段
 
 每次运行只完成有限步骤：
 
@@ -1691,7 +1691,7 @@ init.sh
 → 留下干净环境
 ```
 
-###  跨会话交接
+### 跨会话交接
 
 每轮结束必须保存：
 
@@ -1703,7 +1703,7 @@ init.sh
 - 当前环境状态。
 
 Anthropic 对长时间运行编码 Agent 的实验发现，仅有上下文压缩仍可能导致 Agent 一次做太多、留下半完成状态或提前宣布结束，因此采用初始化 Agent、增量执行和显式进度文件来改善跨上下文连续性。
-##  一个完整案例：代码仓库分析与开发 Agent
+## 一个完整案例：代码仓库分析与开发 Agent
 
 假设目标是：
 
@@ -1712,7 +1712,7 @@ Anthropic 对长时间运行编码 Agent 的实验发现，仅有上下文压缩
 设计第二阶段开发方案，并生成生产级开发文档。
 ```
 
-###  Prompt Engineering 层
+### Prompt Engineering 层
 
 设计任务指令：
 
@@ -1740,7 +1740,7 @@ Anthropic 对长时间运行编码 Agent 的实验发现，仅有上下文压缩
 ```text
 怎样向模型表达工作要求。
 ```
-###  Context Engineering 层
+### Context Engineering 层
 
 第一轮只提供：
 
@@ -1782,7 +1782,7 @@ Anthropic 对长时间运行编码 Agent 的实验发现，仅有上下文压缩
   ],
   "unverified_claims": [
     "multi-user isolation"
-  ]
+  $$
 }
 ```
 
@@ -1791,7 +1791,7 @@ Anthropic 对长时间运行编码 Agent 的实验发现，仅有上下文压缩
 ```text
 模型当前应该看到哪些代码、状态和证据。
 ```
-###  Harness Engineering 层
+### Harness Engineering 层
 
 完整系统需要执行：
 
@@ -1824,7 +1824,7 @@ Harness 还需要：
 ```text
 整个分析任务如何被可靠地执行、验证和交付。
 ```
-##  从 Demo 到生产系统的演进路径
+## 从 Demo 到生产系统的演进路径
 
 ## 阶段一：Prompt Prototype
 
@@ -1937,9 +1937,9 @@ Orchestrator
 - 企业生产流程；
 - 多 Agent 系统；
 - 可审计业务。
-##  三类工程的评价指标
+## 三类工程的评价指标
 
-###  Prompt Engineering 指标
+### Prompt Engineering 指标
 
 - 指令遵循率；
 - 输出格式正确率；
@@ -1948,27 +1948,27 @@ Orchestrator
 - 输出一致性；
 - Prompt Token 数；
 - 不同模型上的迁移表现。
-###  Context Engineering 指标
+### Context Engineering 指标
 
 ### Retrieval Recall
 
 相关资料是否被召回：
 
-[
+$$
 Recall@K =
 \frac{\text{Top-K 中相关文档数}}
 {\text{全部相关文档数}}
-]
+$$
 
 ### Retrieval Precision
 
 召回资料中有多少真正相关：
 
-[
+$$
 Precision@K =
 \frac{\text{Top-K 中相关文档数}}
 {K}
-]
+$$
 
 ### Context Utilization
 
@@ -1976,11 +1976,11 @@ Precision@K =
 
 ### Context Efficiency
 
-[
+$$
 ContextEfficiency =
 \frac{\text{有效信息 Token}}
 {\text{总 Context Token}}
-]
+$$
 
 ### Groundedness
 
@@ -1989,47 +1989,47 @@ ContextEfficiency =
 ### Context Conflict Rate
 
 上下文中相互冲突或版本不一致的信息比例。
-###  Harness Engineering 指标
+### Harness Engineering 指标
 
 ### Task Success Rate
 
-[
+$$
 TSR =
 \frac{\text{成功完成任务数}}
 {\text{总任务数}}
-]
+$$
 
 ### Verified Success Rate
 
-[
+$$
 VSR =
 \frac{\text{通过外部验证的成功任务数}}
 {\text{总任务数}}
-]
+$$
 
 ### Recovery Rate
 
-[
+$$
 RecoveryRate =
 \frac{\text{故障后成功恢复的任务数}}
 {\text{发生可恢复故障的任务数}}
-]
+$$
 
 ### Tool Error Rate
 
-[
+$$
 ToolErrorRate =
 \frac{\text{失败工具调用数}}
 {\text{工具调用总数}}
-]
+$$
 
 ### Human Intervention Rate
 
-[
+$$
 HIR =
 \frac{\text{需要人工处理的任务数}}
 {\text{任务总数}}
-]
+$$
 
 还应同时监测：
 
@@ -2041,9 +2041,9 @@ HIR =
 - 权限拒绝率；
 - 回归测试通过率；
 - Trace 完整率。
-##  常见概念混淆
+## 常见概念混淆
 
-###  Context Engineering 等于 RAG
+### Context Engineering 等于 RAG
 
 错误。
 
@@ -2058,7 +2058,7 @@ Context Engineering 还负责：
 ```text
 选择、压缩、隔离、排序、记忆、工具和状态
 ```
-###  Harness Engineering 等于 Agent Framework
+### Harness Engineering 等于 Agent Framework
 
 不完全正确。
 
@@ -2077,7 +2077,7 @@ Harness Engineering 是系统设计思想
 - 重试；
 - Trace；
 - 验证。
-###  Context Window 等于 Memory
+### Context Window 等于 Memory
 
 错误。
 
@@ -2092,7 +2092,7 @@ Context Window
     ↓
 LLM
 ```
-###  Agent 等于多 Agent
+### Agent 等于多 Agent
 
 错误。
 
@@ -2106,7 +2106,7 @@ LLM
 - 错误传播；
 - 成本增加；
 - 结果冲突。
-###  更大的模型可以消除 Harness
+### 更大的模型可以消除 Harness
 
 错误。
 
@@ -2121,7 +2121,7 @@ LLM
 - 故障恢复。
 
 同时，Harness 不应固化对某一代模型能力的假设。随着模型能力变化，旧的补偿机制可能变成不必要的复杂度，因此 Harness 也需要持续评估和简化。
-##  三者各自最核心的工程原则
+## 三者各自最核心的工程原则
 
 ## Prompt Engineering
 
@@ -2161,9 +2161,9 @@ LLM
 外部验证负责证明
 状态与日志负责恢复和审计
 ```
-##  实践检查清单
+## 实践检查清单
 
-###  Prompt 检查
+### Prompt 检查
 
 -  任务目标是否明确？
 -  输入资料和指令是否分隔？
@@ -2173,7 +2173,7 @@ LLM
 -  示例是否典型且多样？
 -  是否说明不确定时如何处理？
 -  Prompt 是否有版本和测试？
-###  Context 检查
+### Context 检查
 
 -  当前步骤真正需要哪些信息？
 -  是否加载了无关历史？
@@ -2186,7 +2186,7 @@ LLM
 -  任务状态是否独立保存？
 -  长期记忆是否经过筛选？
 -  是否控制了 Token 预算？
-###  Harness 检查
+### Harness 检查
 
 -  Agent Loop 是否有最大步数？
 -  是否有明确终止条件？
@@ -2202,7 +2202,7 @@ LLM
 -  是否支持崩溃恢复？
 -  是否建立能力评估与回归评估？
 -  是否监测成本、延迟和人工介入率？
-##  最终总结
+## 最终总结
 
 Prompt Engineering、Context Engineering 和 Harness Engineering 的区别，不是三种具体算法之间的区别，而是三个工程范围之间的区别。
 
@@ -2259,7 +2259,7 @@ Model–Context–Tool–Environment System
 
 因此，一个可靠的 Agent 系统通常需要同时做好三件事：
 
-[
+$$
 \boxed{
 \text{清晰的 Prompt}
 +
@@ -2267,7 +2267,7 @@ Model–Context–Tool–Environment System
 +
 \text{可靠的 Harness}
 }
-]
+$$
 
 其中：
 

@@ -2,6 +2,9 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   lang: 'zh-CN',
+  markdown: {
+    math: true
+  },
   title: '邓厚锐',
   description: '邓厚锐的个人博客、学习笔记与项目实践',
   base: '/blog/',
@@ -45,35 +48,89 @@ export default defineConfig({
         }
       ],
       '/notes/agent-engineering/': [
+        { text: '概览', link: '/notes/agent-engineering/' },
         {
-          text: 'Agent Engineering',
+          text: '基础概念',
+          collapsed: false,
           items: [
-            { text: '概览', link: '/notes/agent-engineering/' },
-            { text: 'Agent 基础', link: '/notes/agent-engineering/agent-basics' },
-            { text: 'Agent Loop 与 Graph', link: '/notes/agent-engineering/agent-loop' },
-            { text: 'Function Call 与 MCP', link: '/notes/agent-engineering/function_call_mcp_engineering' },
-            { text: 'RAG 工程', link: '/notes/agent-engineering/RAG' },
-            { text: 'Agent Memory', link: '/notes/agent-engineering/memory' },
-            { text: 'Context 与 Harness', link: '/notes/agent-engineering/harness-engineering' },
-            { text: '安全与可靠性', link: '/notes/agent-engineering/agent-security' }
+            { text: 'Agent 基础', link: '/notes/agent-engineering/01-agent-basics' },
+            { text: 'Agent Loop', link: '/notes/agent-engineering/02-agent-loop' },
+            { text: 'Agent Graph', link: '/notes/agent-engineering/03-agent-graph' }
+          ]
+        },
+        {
+          text: '工具与协议',
+          collapsed: false,
+          items: [
+            { text: 'Function Call', link: '/notes/agent-engineering/04-function-call' },
+            { text: 'MCP', link: '/notes/agent-engineering/05-mcp' }
+          ]
+        },
+        {
+          text: '信息管理',
+          collapsed: false,
+          items: [
+            { text: 'RAG 工程', link: '/notes/agent-engineering/06-rag-engineering' },
+            { text: 'Agent Memory', link: '/notes/agent-engineering/07-agent-memory' },
+            { text: 'Context 与 Harness', link: '/notes/agent-engineering/08-harness-engineering' }
+          ]
+        },
+        {
+          text: '生产实践',
+          collapsed: false,
+          items: [
+            { text: '安全与可靠性', link: '/notes/agent-engineering/09-agent-security' }
           ]
         }
       ],
       '/notes/backend/': [
-        {
-          text: '后端工程',
-          items: [
-            { text: '概览', link: '/notes/backend/' },
-            { text: '系统设计', link: '/notes/backend/system-design' }
-          ]
-        }
-      ],
-      '/notes/computer-vision/': [
+        { text: '概览', link: '/notes/backend/' },
         {
           text: '基础',
           collapsed: false,
           items: [
-            { text: '概览', link: '/notes/computer-vision/' },
+            { text: '操作系统与并发编程', link: '/notes/backend/01-计算机基础' },
+            { text: '计算机网络与HTTP', link: '/notes/backend/02-计算机网络与HTTP' },
+            { text: '编程语言与运行时', link: '/notes/backend/03-编程语言与运行时' }
+          ]
+        },
+        {
+          text: 'Web 与数据',
+          collapsed: false,
+          items: [
+            { text: 'Web框架与项目分层', link: '/notes/backend/04-Web框架与项目分层' },
+            { text: 'MySQL', link: '/notes/backend/05-数据库-MySQL' },
+            { text: 'NoSQL数据库', link: '/notes/backend/06-NoSQL数据库' }
+          ]
+        },
+        {
+          text: '中间件与分布式',
+          collapsed: false,
+          items: [
+            { text: '消息队列', link: '/notes/backend/07-消息队列' },
+            { text: '分布式系统与可靠性', link: '/notes/backend/08-分布式系统与可靠性' },
+            { text: '安全', link: '/notes/backend/09-安全' }
+          ]
+        },
+        {
+          text: '工程实践',
+          collapsed: false,
+          items: [
+            { text: '测试', link: '/notes/backend/10-测试' },
+            { text: '日志、监控与可观测性', link: '/notes/backend/11-日志监控与可观测性' },
+            { text: 'Linux、容器与部署', link: '/notes/backend/12-Linux容器与部署' },
+            { text: '软件工程与系统设计', link: '/notes/backend/13-软件工程与系统设计' },
+            { text: '性能优化与故障排查', link: '/notes/backend/14-性能优化与故障排查' },
+            { text: '系统设计案例', link: '/notes/backend/system-design' }
+          ]
+        }
+      ],
+      '/notes/computer-vision/': [
+        { text: '概览', link: '/notes/computer-vision/' },
+        {
+          text: '基础',
+          collapsed: false,
+          items: [
             { text: '计算机视觉基础', link: '/notes/computer-vision/00-计算机视觉基础' },
             { text: '目标检测基础', link: '/notes/computer-vision/01-目标检测基础' },
             { text: '目标追踪', link: '/notes/computer-vision/object-tracking' }
@@ -111,10 +168,10 @@ export default defineConfig({
         }
       ],
       '/notes/cryptography/': [
+        { text: '概览', link: '/notes/cryptography/' },
         {
           text: '密码学与隐私计算',
           items: [
-            { text: '概览', link: '/notes/cryptography/' },
             { text: '隐私计算基础', link: '/notes/cryptography/privacy-computing' }
           ]
         }

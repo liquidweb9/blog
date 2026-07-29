@@ -1,12 +1,10 @@
-# Agent Loop 与 Agent Graph
+# Agent Loop
 
-> Agent Loop 与 Agent Graph 不是某个单一算法或框架，而是构建智能体系统时用于组织模型推理、工具调用、状态流转、任务分解、错误恢复和终止控制的两种核心执行模型。
->
-> Agent Loop 强调“模型如何循环地观察、思考、行动和更新状态”；Agent Graph 强调“这些步骤如何被显式组织成节点、边、条件分支和循环结构”。
+> Agent Loop 是构建智能体系统时用于组织模型推理、工具调用、状态流转、任务分解、错误恢复和终止控制的核心执行模型。它强调模型如何循环地观察、思考、行动和更新状态。
 
-##  什么是 Agent Loop / Agent Graph
+## 什么是 Agent Loop / Agent Graph
 
-###  什么是 Agent
+### 什么是 Agent
 
 普通的大语言模型调用通常是一次性的：
 
@@ -38,7 +36,8 @@ Agent = LLM + 状态 + 工具 + 控制流 + 记忆 + 终止机制 + 运行时
 ```
 
 其中，Agent Loop 和 Agent Graph 负责定义 Agent 的**控制流**。
-###  什么是 Agent Loop
+### 什么是 Agent Loop
+### 什么是 Agent Loop
 
 Agent Loop 是一种循环式执行结构。
 
@@ -55,9 +54,9 @@ Agent Loop 是一种循环式执行结构。
 
 可以抽象为：
 
-[
+$$
 S_{t+1}=F(S_t,A_t,O_t)
-]
+$$
 
 其中：
 
@@ -90,61 +89,9 @@ S_{t+1}=F(S_t,A_t,O_t)
 
 Agent Loop 的核心并不是“重复调用模型”，而是：
 
-> 让模型在环境反馈的基础上不断调整行为，直到满足任务完成条件。
-###  什么是 Agent Graph
+## 为什么需要 Agent Loop / Agent Graph
 
-Agent Graph 是一种显式图结构的控制流模型。
-
-图中的基本元素包括：
-
-- **节点 Node**：执行一个具体步骤；
-- **边 Edge**：表示节点之间的流转关系；
-- **条件边 Conditional Edge**：根据状态决定进入哪个节点；
-- **状态 State**：在节点之间传递的数据；
-- **入口 Entry Point**：任务从哪里开始；
-- **终点 End Node**：任务在哪里结束；
-- **子图 Subgraph**：可复用的局部工作流；
-- **检查点 Checkpoint**：保存图运行到某一步时的状态。
-
-一个简单的 Agent Graph 可以表示为：
-
-```mermaid
-flowchart TD
-    A[接收任务] --> B[分析任务]
-    B --> C{是否需要工具}
-    C -- 否 --> F[生成答案]
-    C -- 是 --> D[选择并调用工具]
-    D --> E[处理工具结果]
-    E --> G{任务是否完成}
-    G -- 否 --> B
-    G -- 是 --> F
-    F --> H[结束]
-```
-
-Agent Graph 可以是：
-
-- 有向无环图 DAG；
-- 有条件分支的状态机；
-- 包含循环边的有向图；
-- 多 Agent 协作图；
-- 动态生成的执行图。
-###  Agent Graph 不是知识图谱
-
-“Agent Graph”中的 Graph 指的是**控制流图**，而不是知识图谱。
-
-两者的区别如下：
-
-| 类型        | 节点表示                      | 边表示             | 主要目标              |
-| ----------- | ----------------------------- | ------------------ | --------------------- |
-| Agent Graph | 推理步骤、工具、Agent、验证器 | 执行顺序、条件转移 | 控制 Agent 的运行过程 |
-| 知识图谱    | 实体、概念、事件              | 实体之间的语义关系 | 存储和查询知识        |
-| 计算图      | 数学运算                      | 张量依赖关系       | 自动微分和数值计算    |
-| 工作流图    | 业务任务                      | 任务依赖关系       | 业务流程编排          |
-
-Agent Graph 中也可以调用知识图谱，但二者不是同一个概念。
-##  为什么需要 Agent Loop / Agent Graph
-
-###  单次 LLM 调用能力有限
+### 单次 LLM 调用能力有限
 
 一次模型调用适合：
 
@@ -189,7 +136,7 @@ Agent Graph 中也可以调用知识图谱，但二者不是同一个概念。
 - 任务失败后不能恢复。
 
 Agent Loop 让任务能够被逐步推进。
-###  工具调用需要反馈闭环
+### 工具调用需要反馈闭环
 
 模型在调用工具之前并不知道工具结果。
 
@@ -211,7 +158,7 @@ Agent Loop 让任务能够被逐步推进。
 ```
 
 没有 Agent Loop，模型难以根据真实工具结果动态调整行为。
-###  复杂任务存在分支
+### 复杂任务存在分支
 
 很多任务没有固定的线性流程。
 
@@ -232,7 +179,7 @@ flowchart TD
 ```
 
 Agent Graph 可以将不同处理路径显式表达出来。
-###  复杂任务需要可控性
+### 复杂任务需要可控性
 
 如果只写一个无限循环：
 
@@ -261,7 +208,7 @@ Agent Graph 将隐式控制流变成显式结构，使系统更容易：
 - 限制；
 - 恢复；
 - 审计。
-###  Agent Loop 是动态性的来源
+### Agent Loop 是动态性的来源
 
 普通 Workflow 通常是：
 
@@ -282,9 +229,9 @@ A → 模型判断 → B / C / D / 结束
 > 动态性越高，不确定性越高；控制越自由，调试和安全成本越高。
 
 工程上通常不应该让模型完全自由决定所有流程，而应该将模型决策限制在明确的候选动作集合中。
-##  Agent Loop 与 Agent Graph 的关系和区别
+## Agent Loop 与 Agent Graph 的关系和区别
 
-###  Agent Loop 关注循环行为
+### Agent Loop 关注循环行为
 
 Agent Loop 重点回答：
 
@@ -296,7 +243,7 @@ Agent Loop 重点回答：
 - 最多允许运行多少轮？
 
 它描述的是 Agent 的动态运行机制。
-###  Agent Graph 关注控制流结构
+### Agent Graph 关注控制流结构
 
 Agent Graph 重点回答：
 
@@ -309,7 +256,7 @@ Agent Graph 重点回答：
 - 哪些状态可以持久化？
 
 它描述的是 Agent 的整体运行拓扑。
-###  二者通常共同出现
+### 二者通常共同出现
 
 Agent Graph 中可以包含 Agent Loop：
 
@@ -334,7 +281,7 @@ flowchart LR
 因此：
 
 > Agent Loop 是一种运行模式，Agent Graph 是一种结构化表达和编排方式。
-###  Loop、Graph 与 Workflow 的区别
+### Loop、Graph 与 Workflow 的区别
 
 | 特征              | 普通 Workflow    | Agent Loop | Agent Graph         |
 | ----------------- | ---------------- | ---------- | ------------------- |
@@ -348,11 +295,11 @@ flowchart LR
 一个实用原则是：
 
 > 确定性步骤使用 Workflow，存在不确定性的局部步骤使用 Agent Loop，再用 Agent Graph 将二者组合起来。
-##  Agent Loop 的基本组成
+## Agent Loop 的基本组成
 
 一个工程化 Agent Loop 通常包括以下部分。
 
-###  输入任务
+### 输入任务
 
 输入任务不应只是一个字符串，还可以包含：
 
@@ -368,7 +315,7 @@ class TaskInput:
 ```
 
 输入中的约束应尽量结构化，而不是全部拼接到 Prompt 中。
-###  当前状态
+### 当前状态
 
 Agent 必须知道当前发生了什么。
 
@@ -399,7 +346,7 @@ class AgentState:
 - 可以重放；
 - 不保存大量重复文本；
 - 敏感信息有明确边界。
-###  决策器
+### 决策器
 
 决策器负责根据状态选择下一步动作。
 
@@ -430,7 +377,7 @@ class AgentState:
 - 日志记录；
 - 失败重试；
 - 自动测试。
-###  动作执行器
+### 动作执行器
 
 动作执行器负责真正执行模型选择的动作。
 
@@ -448,7 +395,7 @@ class AgentState:
 执行器应与 LLM 决策器分离。
 
 模型只能提出动作，运行时决定动作是否允许执行。
-###  观察结果
+### 观察结果
 
 工具执行结果需要转化为 Agent 可以理解的观察信息。
 
@@ -486,10 +433,10 @@ class AgentState:
       "title": "Agent Runtime Design",
       "summary": "讨论状态机、预算和恢复机制"
     }
-  ]
+  $$
 }
 ```
-###  状态更新器
+### 状态更新器
 
 状态更新器负责将动作和观察结果合并到当前状态。
 
@@ -520,7 +467,7 @@ def reduce_state(state, event):
 ```
 
 状态更新最好由确定性代码完成，而不是把整个 State 交给模型重写。
-###  终止判断器
+### 终止判断器
 
 Agent Loop 必须回答：
 
@@ -542,203 +489,8 @@ Agent Loop 必须回答：
 - 安全策略拒绝继续执行。
 
 终止判断不应完全依赖模型。
-##  Agent Graph 的基本组成
 
-###  节点 Node
-
-节点是 Agent Graph 中最小的执行单元。
-
-节点可以是：
-
-- LLM 推理节点；
-- 工具调用节点；
-- 路由节点；
-- 验证节点；
-- 状态转换节点；
-- 人工审批节点；
-- 数据清洗节点；
-- 子 Agent 节点；
-- 输出生成节点。
-
-一个好的节点应该：
-
-- 职责单一；
-- 输入输出明确；
-- 容易单独测试；
-- 错误边界清晰；
-- 尽量保证幂等；
-- 不依赖不必要的全局状态。
-###  边 Edge
-
-边表示节点之间的流转关系。
-
-普通边：
-
-```text
-A → B
-```
-
-条件边：
-
-```text
-A → 条件判断 → B / C / D
-```
-
-循环边：
-
-```text
-A → B → C → A
-```
-
-错误边：
-
-```text
-工具节点失败 → 重试节点 / 降级节点 / 人工处理节点
-```
-
-工程上应显式定义错误流向，而不是只定义成功路径。
-###  路由函数 Router
-
-路由函数根据 State 决定下一个节点。
-
-例如：
-
-```python
-def route_after_reasoning(state):
-    decision = state["decision"]
-
-    if decision["action"] == "call_tool":
-        return "tool_executor"
-
-    if decision["action"] == "finish":
-        return "finalizer"
-
-    if decision["action"] == "ask_human":
-        return "human_approval"
-
-    return "error_handler"
-```
-
-路由函数最好是确定性的。
-
-如果路由由 LLM 完成，LLM 的输出也应被限制在枚举值中：
-
-```python
-Route = Literal[
-    "tool_executor",
-    "planner",
-    "validator",
-    "finalizer"
-]
-```
-###  图状态 State
-
-图状态是在不同节点之间传递的共享数据。
-
-状态模型可以分成三层：
-
-### 任务级状态
-
-生命周期覆盖整个任务：
-
-```text
-任务目标、用户约束、最终产物、总体预算
-```
-
-### 阶段级状态
-
-生命周期覆盖一个子流程：
-
-```text
-当前计划、当前子任务、阶段结果、阶段错误
-```
-
-### 节点级临时状态
-
-只在当前节点使用：
-
-```text
-模型响应、工具参数、中间解析结果
-```
-
-避免把所有临时变量都写入全局 State，否则会造成状态污染。
-###  Reducer
-
-在并发节点或多个分支同时修改状态时，需要定义合并规则。
-
-例如：
-
-```python
-class GraphState:
-    findings: Annotated[list[str], add]
-    errors: Annotated[list[str], add]
-    metadata: dict
-```
-
-常见 Reducer 规则包括：
-
-- 覆盖：保留最新值；
-- 追加：将结果加入列表；
-- 集合合并：自动去重；
-- 最大值：保留最大版本号；
-- 状态机转移：只允许合法状态变化；
-- 自定义冲突解决。
-
-没有明确 Reducer 时，并发图容易出现：
-
-- 后写覆盖前写；
-- 更新丢失；
-- 顺序不确定；
-- 数据重复。
-###  入口和终点
-
-每个 Graph 应明确：
-
-```text
-ENTRY → 第一个节点
-```
-
-以及：
-
-```text
-某个节点 → END
-```
-
-不能假设“没有下一条边就自然结束”。
-
-明确终点有利于：
-
-- 统计任务成功率；
-- 区分正常终止与异常中断；
-- 触发清理逻辑；
-- 写入最终检查点；
-- 生成最终输出。
-###  子图 Subgraph
-
-复杂 Graph 不应将所有节点放在一张大图中。
-
-可以拆成：
-
-```text
-主图
-├── 检索子图
-├── 代码执行子图
-├── 内容验证子图
-├── 人工审批子图
-└── 输出生成子图
-```
-
-子图的优点包括：
-
-- 降低复杂度；
-- 提高复用性；
-- 独立测试；
-- 独立配置权限；
-- 独立设置预算；
-- 方便局部替换。
-##  常见 Agent Loop 模式
-
-###  ReAct Loop
+### ReAct Loop
 
 ReAct 可以概括为：
 
@@ -778,7 +530,7 @@ flowchart TD
 - 文件查询；
 - 数据库问答；
 - 少量步骤的工具任务。
-###  Plan-and-Execute
+### Plan-and-Execute
 
 先规划，再执行。
 
@@ -808,7 +560,7 @@ flowchart LR
       "status": "pending",
       "depends_on": ["step_1"]
     }
-  ]
+  $$
 }
 ```
 
@@ -831,7 +583,7 @@ flowchart LR
 ```text
 计划 → 执行 → 检查偏差 → 必要时重规划
 ```
-###  Planner–Executor–Validator Loop
+### Planner–Executor–Validator Loop
 
 这是一种更工程化的 Loop：
 
@@ -861,7 +613,7 @@ flowchart TD
 负责检查结果是否满足验收标准。
 
 这种模式可以减少单一模型同时“出题、答题、判分”导致的自我确认偏差。
-###  Reflection Loop
+### Reflection Loop
 
 Agent 生成结果后进行自检：
 
@@ -893,7 +645,7 @@ Agent 生成结果后进行自检：
 ```text
 代码生成 → 让模型评价自己是否正确
 ```
-###  Tool-Use Loop
+### Tool-Use Loop
 
 Agent 专门围绕工具调用进行循环：
 
@@ -917,7 +669,7 @@ Agent 专门围绕工具调用进行循环：
 - 副作用；
 - 结果大小；
 - 错误分类。
-###  Human-in-the-Loop
+### Human-in-the-Loop
 
 在高风险或需要主观判断的节点暂停：
 
@@ -940,150 +692,10 @@ flowchart TD
 - 发布内容；
 - 访问敏感数据；
 - 执行不可逆操作。
-##  常见 Agent Graph 模式
+## 常见 Agent Graph 模式
 
-###  线性图
 
-```text
-输入 → 分析 → 执行 → 验证 → 输出
-```
-
-适合流程基本固定的任务。
-
-优点是简单、稳定、容易测试。
-###  条件路由图
-
-```mermaid
-flowchart TD
-    A[分析用户请求] --> B{请求类型}
-    B -- 知识问答 --> C[检索节点]
-    B -- 代码任务 --> D[代码节点]
-    B -- 数据分析 --> E[数据处理节点]
-    C --> F[回答节点]
-    D --> F
-    E --> F
-```
-
-适合一个入口处理多种任务类型。
-###  循环图
-
-```mermaid
-flowchart TD
-    A[生成结果] --> B[验证结果]
-    B --> C{是否通过}
-    C -- 否 --> D[修复]
-    D --> A
-    C -- 是 --> E[结束]
-```
-
-需要严格设置最大循环次数。
-###  Map-Reduce 图
-
-将大任务拆成多个并行任务：
-
-```mermaid
-flowchart TD
-    A[拆分任务] --> B1[处理部分1]
-    A --> B2[处理部分2]
-    A --> B3[处理部分3]
-    B1 --> C[聚合结果]
-    B2 --> C
-    B3 --> C
-    C --> D[统一验证]
-```
-
-适合：
-
-- 多文档总结；
-- 多文件代码分析；
-- 多数据源查询；
-- 多候选方案生成；
-- 批量评估。
-
-需要注意：
-
-- 分片之间是否独立；
-- 聚合时是否丢失信息；
-- 并发调用是否超过限流；
-- 各分支状态如何合并。
-###  Supervisor–Worker 图
-
-Supervisor 负责分派任务，Worker 负责执行。
-
-```mermaid
-flowchart TD
-    A[Supervisor] --> B[检索 Agent]
-    A --> C[代码 Agent]
-    A --> D[分析 Agent]
-    B --> A
-    C --> A
-    D --> A
-    A --> E[最终输出]
-```
-
-Supervisor 不应无限自由地创建任务。
-
-应限制：
-
-- 可调用的 Worker 列表；
-- 每个 Worker 的职责；
-- 最大分派次数；
-- 是否允许 Worker 相互调用；
-- 状态返回格式；
-- 任务完成协议。
-###  层级式多 Agent 图
-
-复杂任务可以采用多层结构：
-
-```text
-总控 Agent
-├── 研究组
-│   ├── 搜索 Agent
-│   └── 文献分析 Agent
-├── 工程组
-│   ├── 架构 Agent
-│   └── 代码 Agent
-└── 审核组
-    ├── 事实核验 Agent
-    └── 格式审核 Agent
-```
-
-层级式结构容易出现过度设计。
-
-如果单 Agent 加几个工具就能完成，不应为了“多 Agent”而增加复杂度。
-###  状态机图
-
-将任务状态显式限制为有限集合：
-
-```text
-CREATED
-→ PLANNING
-→ RUNNING
-→ WAITING_FOR_HUMAN
-→ VALIDATING
-→ COMPLETED / FAILED / CANCELLED
-```
-
-合法转移例如：
-
-```python
-ALLOWED_TRANSITIONS = {
-    "CREATED": {"PLANNING", "CANCELLED"},
-    "PLANNING": {"RUNNING", "FAILED", "CANCELLED"},
-    "RUNNING": {
-        "VALIDATING",
-        "WAITING_FOR_HUMAN",
-        "FAILED",
-        "CANCELLED",
-    },
-    "VALIDATING": {"COMPLETED", "RUNNING", "FAILED"},
-}
-```
-
-状态机可以避免模型随意生成非法状态。
-##  如何设计 Agent Loop
-
-###  第一步：明确任务边界
+### 第一步：明确任务边界
 
 首先判断任务是否真的需要 Agent Loop。
 
@@ -1105,7 +717,7 @@ ALLOWED_TRANSITIONS = {
 - 需要长期保持任务状态。
 
 不要把所有 LLM 应用都做成 Agent。
-###  第二步：定义动作空间
+### 第二步：定义动作空间
 
 不要让模型自由生成任意动作。
 
@@ -1130,7 +742,7 @@ class SearchAction:
 ```
 
 动作空间越清晰，系统越稳定。
-###  第三步：定义状态
+### 第三步：定义状态
 
 判断每一轮决策真正需要哪些信息。
 
@@ -1162,7 +774,7 @@ class SearchAction:
 设计原则：
 
 > 状态只保存决策所需的事实，不保存所有历史细节。
-###  第四步：定义单轮协议
+### 第四步：定义单轮协议
 
 每一轮需要有稳定的输入输出格式。
 
@@ -1201,7 +813,7 @@ class SearchAction:
 - 判断安全权限。
 
 这些职责应由运行时拆开处理。
-###  第五步：定义终止条件
+### 第五步：定义终止条件
 
 至少应包含：
 
@@ -1225,7 +837,7 @@ if state.consecutive_errors >= max_errors:
 if repeated_action_count >= 3:
     stop("repeated_action_without_progress")
 ```
-###  第六步：定义错误处理
+### 第六步：定义错误处理
 
 需要区分错误类型。
 
@@ -1265,145 +877,11 @@ if repeated_action_count >= 3:
 - 必需服务长期不可用。
 
 应停止任务并报告。
-##  如何设计 Agent Graph
-
-###  从职责而不是 Prompt 划分节点
-
-错误划分方式：
-
-```text
-节点1：Prompt A
-节点2：Prompt B
-节点3：Prompt C
-```
-
-更好的方式：
-
-```text
-节点1：任务分类
-节点2：任务规划
-节点3：工具执行
-节点4：结果验证
-节点5：最终生成
-```
-
-节点应对应稳定的工程职责，而不是某段 Prompt。
-###  将确定性逻辑移出 LLM
-
-以下逻辑不应该让 LLM 判断：
-
-- 数值是否超过阈值；
-- JSON 是否符合 Schema；
-- 文件是否存在；
-- 用户是否有权限；
-- 是否达到最大循环次数；
-- HTTP 状态码是否为成功；
-- 测试是否通过；
-- 哈希是否一致。
-
-应该使用普通代码：
-
-```python
-if tool_result.status_code == 200:
-    return "process_result"
-return "error_handler"
-```
-
-LLM 应主要处理：
-
-- 语义理解；
-- 模糊分类；
-- 任务分解；
-- 非结构化信息判断；
-- 自然语言生成。
-###  显式设计失败路径
-
-设计图时，不仅画 Happy Path：
-
-```text
-A → B → C → 完成
-```
-
-还要设计：
-
-```text
-B 超时怎么办？
-C 验证失败怎么办？
-状态写入失败怎么办？
-用户取消怎么办？
-人工长时间未审批怎么办？
-```
-
-一个更完整的结构是：
-
-```mermaid
-flowchart TD
-    A[执行工具] --> B{执行结果}
-    B -- 成功 --> C[处理结果]
-    B -- 临时错误 --> D[指数退避重试]
-    B -- 参数错误 --> E[修正参数]
-    B -- 权限错误 --> F[停止并报告]
-    B -- 不可恢复错误 --> G[进入失败状态]
-    D --> A
-    E --> A
-```
-###  控制图的动态程度
-
-Agent Graph 可以分为三种控制程度。
-
-### 静态图
-
-节点和边完全预定义。
-
-优点是稳定、易测试。
-
-### 半动态图
-
-节点固定，但路由由模型决定。
-
-这是比较常见的工程选择。
-
-### 动态图
-
-模型可以创建新节点、任务和依赖关系。
-
-灵活但风险高，容易出现：
-
-- 图无限扩张；
-- 重复任务；
-- 循环依赖；
-- 预算失控；
-- 难以重放。
-
-通常应优先选择静态图或半动态图。
-###  用子图隔离复杂性
-
-例如一个代码开发 Agent：
-
-```mermaid
-flowchart TD
-    A[主任务] --> B[代码理解子图]
-    B --> C[修改方案子图]
-    C --> D[代码执行子图]
-    D --> E[测试验证子图]
-    E --> F{通过}
-    F -- 否 --> C
-    F -- 是 --> G[输出]
-```
-
-每个子图内部可以有自己的：
-
-- State；
-- 工具；
-- 预算；
-- 错误处理；
-- 检查点；
-- 权限。
-##  状态管理
+## 如何设计 Agent Graph
 
 状态管理是 Agent Loop / Graph 最重要的基础能力之一。
 
-###  状态与上下文的区别
+### 状态与上下文的区别
 
 状态是系统真实保存的数据：
 
@@ -1430,7 +908,7 @@ State ≠ Prompt Context
 ```
 
 State 可以很大，但每轮只选择相关部分进入 Context。
-###  状态应以运行时为事实源
+### 状态应以运行时为事实源
 
 模型不能成为系统状态的唯一事实源。
 
@@ -1451,7 +929,7 @@ state.tool_calls.append({
 ```
 
 模型可以读取状态，但不应完全负责维护状态。
-###  状态更新应事件化
+### 状态更新应事件化
 
 可以使用事件驱动方式记录状态变化：
 
@@ -1486,7 +964,7 @@ state.tool_calls.append({
 - 可以定位状态变化；
 - 可以生成 Trace；
 - 可以重建某个时刻的状态。
-###  状态版本
+### 状态版本
 
 状态结构会随系统升级发生变化。
 
@@ -1514,7 +992,7 @@ def migrate_v2_to_v3(old_state):
 ```
 
 否则旧检查点可能无法恢复。
-###  状态污染
+### 状态污染
 
 状态污染是指无关、错误或过期信息进入共享状态，影响后续节点。
 
@@ -1539,11 +1017,11 @@ def migrate_v2_to_v3(old_state):
 ```
 
 模型推断和工具事实不应混为一谈。
-##  终止条件与预算控制
+## 终止条件与预算控制
 
 没有终止控制的 Agent Loop 不是完整的执行系统。
 
-###  成功终止
+### 成功终止
 
 成功终止应基于验收条件，而不是模型简单说“完成了”。
 
@@ -1566,7 +1044,7 @@ AND 格式符合要求
 AND 引用完整
 AND 没有未解决占位符
 ```
-###  硬预算
+### 硬预算
 
 硬预算包括：
 
@@ -1580,8 +1058,8 @@ AND 没有未解决占位符
 
 可表示为：
 
-`	ext
-[ C_{\text{total}}
+$$
+$$ C_{\text{total}}
 
 C_{\text{LLM}}
 +
@@ -1590,15 +1068,15 @@ C_{\text{tool}}
 C_{\text{storage}}
 +
 C_{\text{retry}}
-]
+$$
 `
 
 并设置：
 
-[
+$$
 C_{\text{total}} \le C_{\max}
-]
-###  软预算
+$$
+### 软预算
 
 软预算用于影响模型策略，而不是立即终止。
 
@@ -1619,25 +1097,25 @@ C_{\text{total}} \le C_{\max}
 - 跳过非必要验证；
 - 提前生成部分结果；
 - 请求人工决定是否继续。
-###  无进展检测
+### 无进展检测
 
 仅依靠最大步骤数会浪费资源。
 
 可以定义进展函数：
 
-[
+$$
 P_t = f(
 \text{completed tasks},
 \text{new evidence},
 \text{validation score}
 )
-]
+$$
 
 若连续多轮：
 
-[
+$$
 P_t-P_{t-1} \le \epsilon
-]
+$$
 
 则认为 Agent 没有有效进展。
 
@@ -1649,7 +1127,7 @@ P_t-P_{t-1} \le \epsilon
 - 错误类型重复；
 - 最终答案质量分数没有提高；
 - 未新增有效证据。
-###  终止原因要结构化
+### 终止原因要结构化
 
 不要只保存：
 
@@ -1672,9 +1150,9 @@ P_t-P_{t-1} \le \epsilon
 ```
 
 这对恢复、监控和用户反馈都很重要。
-##  工具调用与副作用管理
+## 工具调用与副作用管理
 
-###  工具是 Agent 与环境交互的接口
+### 工具是 Agent 与环境交互的接口
 
 常见工具包括：
 
@@ -1701,7 +1179,7 @@ class Tool:
     retry_policy: RetryPolicy
     permission: str
 ```
-###  工具选择
+### 工具选择
 
 模型选择工具时应考虑：
 
@@ -1728,7 +1206,7 @@ search_documents：
 适合根据关键词或语义查找文档段落。
 不用于访问公共互联网，也不能修改文件。
 ```
-###  参数验证
+### 参数验证
 
 模型生成的工具参数必须经过 Schema 校验：
 
@@ -1743,7 +1221,7 @@ except ValidationError as exc:
 ```
 
 不能直接信任模型参数。
-###  副作用工具
+### 副作用工具
 
 副作用工具会改变外部世界，例如：
 
@@ -1764,7 +1242,7 @@ except ValidationError as exc:
 → 验证结果
 → 记录审计日志
 ```
-###  幂等性
+### 幂等性
 
 如果工具调用因为超时而重试，可能重复执行。
 
@@ -1785,7 +1263,7 @@ except ValidationError as exc:
 ```
 
 服务端遇到相同幂等键时返回第一次执行结果，而不重复操作。
-###  两阶段提交思想
+### 两阶段提交思想
 
 对于高风险操作，可以先准备，再提交：
 
@@ -1805,7 +1283,7 @@ Commit：
 → 人工批准
 → 应用补丁
 ```
-###  工具错误标准化
+### 工具错误标准化
 
 不同工具的错误格式应转换为统一结构：
 
@@ -1822,9 +1300,9 @@ Commit：
 ```
 
 否则模型很难统一理解和处理错误。
-##  记忆、上下文与 Agent Loop
+## 记忆、上下文与 Agent Loop
 
-###  Working Memory
+### Working Memory
 
 Working Memory 是当前任务运行时需要的信息，例如：
 
@@ -1834,7 +1312,7 @@ Working Memory 是当前任务运行时需要的信息，例如：
 - 尚未解决的问题。
 
 它通常直接存在 Graph State 中。
-###  Short-Term Memory
+### Short-Term Memory
 
 短期记忆用于保存近期对话和任务历史。
 
@@ -1846,7 +1324,7 @@ Working Memory 是当前任务运行时需要的信息，例如：
 - 历史摘要；
 - 相关性检索；
 - 按任务隔离。
-###  Long-Term Memory
+### Long-Term Memory
 
 长期记忆可以保存：
 
@@ -1859,7 +1337,7 @@ Working Memory 是当前任务运行时需要的信息，例如：
 长期记忆不应直接等同于 Agent State。
 
 Agent State 是当前任务的执行事实；长期记忆是跨任务可复用的信息。
-###  Context Assembly
+### Context Assembly
 
 每轮 Agent Loop 的 Context 可以由以下部分组装：
 
@@ -1875,7 +1353,7 @@ Agent State 是当前任务的执行事实；长期记忆是跨任务可复用�
 ```
 
 不是所有状态都应进入模型上下文。
-###  上下文压缩
+### 上下文压缩
 
 Agent Loop 运行时间越长，历史越多。
 
@@ -1894,7 +1372,7 @@ Agent Loop 运行时间越长，历史越多。
   "facts": [
     "项目使用 FastAPI",
     "数据库是 PostgreSQL"
-  ]
+  $$
 }
 ```
 
@@ -1917,9 +1395,9 @@ Agent Loop 运行时间越长，历史越多。
 → 阶段摘要
 → 任务摘要
 ```
-##  并发、多 Agent 与任务调度
+## 并发、多 Agent 与任务调度
 
-###  哪些任务可以并发
+### 哪些任务可以并发
 
 只有相互独立的任务适合并发。
 
@@ -1938,26 +1416,26 @@ Agent Loop 运行时间越长，历史越多。
 → 根据配置选择数据库
 → 查询数据库
 ```
-###  并发的收益
+### 并发的收益
 
 总耗时近似为：
 
-`	ext
-[ T_{\text{serial}}
+$$
+$$ T_{\text{serial}}
 
 \sum_{i=1}^{n}T_i
-]
+$$
 `
 
 并发时：
 
-[
+$$
 T_{\text{parallel}}
 \approx
 \max(T_1,T_2,\ldots,T_n)
 +
 T_{\text{overhead}}
-]
+$$
 
 但并发会增加：
 
@@ -1966,7 +1444,7 @@ T_{\text{overhead}}
 - 结果聚合难度；
 - 成本瞬时峰值；
 - 调试复杂度。
-###  Fan-out / Fan-in
+### Fan-out / Fan-in
 
 ```mermaid
 flowchart TD
@@ -1985,7 +1463,7 @@ flowchart TD
 - 分支失败；
 - 输出格式不同；
 - 部分结果缺失。
-###  部分失败
+### 部分失败
 
 多分支并发时，不应默认一个分支失败就让全部任务失败。
 
@@ -2005,7 +1483,7 @@ success_policy = {
 检索分支失败可以降级；
 权限检查分支失败必须终止。
 ```
-###  多 Agent 通信
+### 多 Agent 通信
 
 多 Agent 之间应使用结构化消息：
 
@@ -2030,9 +1508,9 @@ success_policy = {
 - 无法判断谁负责；
 - 消耗大量 Token；
 - 难以终止。
-##  检查点、恢复与持久化
+## 检查点、恢复与持久化
 
-###  为什么需要检查点
+### 为什么需要检查点
 
 Agent 任务可能因为以下原因中断：
 
@@ -2045,7 +1523,7 @@ Agent 任务可能因为以下原因中断：
 - 任务持续时间较长。
 
 没有检查点时只能从头执行。
-###  检查点内容
+### 检查点内容
 
 检查点通常保存：
 
@@ -2069,7 +1547,7 @@ Agent 任务可能因为以下原因中断：
 - 工具返回 ID；
 - 是否已确认；
 - 是否需要补偿。
-###  检查点粒度
+### 检查点粒度
 
 可以在以下时机保存：
 
@@ -2082,7 +1560,7 @@ Agent 任务可能因为以下原因中断：
 保存太频繁会增加存储和延迟。
 
 保存太少则恢复时需要重复较多工作。
-###  恢复策略
+### 恢复策略
 
 恢复时需要判断：
 
@@ -2095,7 +1573,7 @@ Agent 任务可能因为以下原因中断：
 ```
 
 恢复不能简单地“重新运行当前节点”。
-###  补偿操作
+### 补偿操作
 
 某些操作无法直接回滚，需要定义补偿动作。
 
@@ -2116,13 +1594,13 @@ Agent 任务可能因为以下原因中断：
 → 补偿 B
 → 补偿 A
 ```
-##  可观测性与 Trace
+## 可观测性与 Trace
 
 Agent 系统不能只记录最终答案。
 
 需要记录完整运行轨迹。
 
-###  Trace 的层级
+### Trace 的层级
 
 一个任务 Trace 可以包括：
 
@@ -2137,7 +1615,7 @@ Task Trace
 │   │   └── LLM Call
 │   └── Node: Finalizer
 ```
-###  应记录的信息
+### 应记录的信息
 
 ### 任务级
 
@@ -2177,7 +1655,7 @@ Task Trace
 - 错误类型；
 - 是否产生副作用；
 - 幂等键。
-###  State Diff
+### State Diff
 
 不需要每一步都完整保存巨大 State，可以保存状态差异：
 
@@ -2197,7 +1675,7 @@ Task Trace
 ```
 
 这样更容易理解某个节点到底修改了什么。
-###  关键指标
+### 关键指标
 
 ### 成功指标
 
@@ -2233,7 +1711,7 @@ Task Trace
 - 检查点恢复成功率；
 - 重复副作用事件数；
 - 平均恢复时间。
-##  如何调试 Agent Loop / Graph
+## 如何调试 Agent Loop / Graph
 
 Agent 调试不能只看最终答案。
 
@@ -2250,7 +1728,7 @@ Agent 调试不能只看最终答案。
 → 终止判断
 → 最终输出
 ```
-###  第一步：固定输入
+### 第一步：固定输入
 
 保存一个可复现测试样本：
 
@@ -2263,7 +1741,7 @@ Agent 调试不能只看最终答案。
 ```
 
 不要每次使用不同的真实环境测试。
-###  第二步：检查状态快照
+### 第二步：检查状态快照
 
 每个节点执行前后打印：
 
@@ -2279,7 +1757,7 @@ After planner:
 ```
 
 如果 State 本身已经错误，后续模型行为通常也会错误。
-###  第三步：检查模型输入
+### 第三步：检查模型输入
 
 重点检查：
 
@@ -2292,7 +1770,7 @@ After planner:
 - 上下文是否过长。
 
 很多“模型问题”实际上是 Context Assembly 问题。
-###  第四步：检查路由
+### 第四步：检查路由
 
 模型决策正确但执行了错误节点，通常是路由问题。
 
@@ -2307,7 +1785,7 @@ After planner:
 却进入了工具节点。
 
 应为每个路由条件编写单元测试。
-###  第五步：检查工具参数
+### 第五步：检查工具参数
 
 常见问题：
 
@@ -2319,7 +1797,7 @@ After planner:
 - 使用了错误工具。
 
 应保留原始模型输出和解析后的参数。
-###  第六步：检查状态更新
+### 第六步：检查状态更新
 
 常见状态更新 Bug：
 
@@ -2332,7 +1810,7 @@ After planner:
 ```
 
 可以用 State Diff 快速定位。
-###  第七步：检查终止条件
+### 第七步：检查终止条件
 
 Agent 提前结束时检查：
 
@@ -2348,7 +1826,7 @@ Agent 不结束时检查：
 - 是否存在无条件循环边；
 - Validator 是否永远返回失败；
 - 是否有节点完成后重新初始化状态。
-###  Trace Replay
+### Trace Replay
 
 Trace Replay 是非常重要的调试能力。
 
@@ -2366,7 +1844,7 @@ Trace Replay 是非常重要的调试能力。
 - 工具环境变化；
 - 状态错误；
 - 路由错误。
-###  Time Travel Debugging
+### Time Travel Debugging
 
 如果保存了每一步检查点，可以从任意节点恢复：
 
@@ -2385,7 +1863,7 @@ Trace Replay 是非常重要的调试能力。
 - 验证器。
 
 然后比较新旧结果。
-###  可视化 Graph
+### 可视化 Graph
 
 将实际执行路径画出来：
 
@@ -2406,11 +1884,11 @@ planner → search → planner → search → planner → search
 ```
 
 就能直观看出重复循环。
-##  测试体系
+## 测试体系
 
 Agent 测试需要覆盖多个层次。
 
-###  节点单元测试
+### 节点单元测试
 
 单独测试节点：
 
@@ -2424,7 +1902,7 @@ def test_router_goes_to_tool_executor():
 
     assert route_after_reasoning(state) == "tool_executor"
 ```
-###  State Reducer 测试
+### State Reducer 测试
 
 ```python
 def test_tool_result_is_appended():
@@ -2438,7 +1916,7 @@ def test_tool_result_is_appended():
 
     assert new_state.tool_results["call_1"]["value"] == 42
 ```
-###  工具契约测试
+### 工具契约测试
 
 验证：
 
@@ -2448,7 +1926,7 @@ def test_tool_result_is_appended():
 - 错误结构；
 - 幂等行为；
 - 权限控制。
-###  Graph 路径测试
+### Graph 路径测试
 
 测试不同状态是否经过预期路径。
 
@@ -2468,7 +1946,7 @@ classify → tool → process → answer → end
 预期路径：
 classify → tool → retry → tool → process → end
 ```
-###  Golden Trace
+### Golden Trace
 
 保存一条经过人工确认的标准执行轨迹：
 
@@ -2483,12 +1961,12 @@ classify → tool → retry → tool → process → end
   ],
   "required_facts": [
     "database=postgresql"
-  ]
+  $$
 }
 ```
 
 模型输出可以变化，但关键路径和关键事实应保持稳定。
-###  Mock Tool
+### Mock Tool
 
 测试时应 Mock 外部工具：
 
@@ -2499,7 +1977,7 @@ class FakeSearchTool:
             "success": True,
             "items": [
                 {"title": "Test Result"}
-            ]
+            $$
         }
 ```
 
@@ -2509,7 +1987,7 @@ class FakeSearchTool:
 - 搜索结果变化；
 - API 限流；
 - 外部服务故障。
-###  故障注入
+### 故障注入
 
 主动模拟：
 
@@ -2528,13 +2006,13 @@ class FakeSearchTool:
 - 正确终止；
 - 不产生重复副作用；
 - 给出可理解的错误报告。
-###  非确定性测试
+### 非确定性测试
 
 同一个输入运行多次：
 
-[
+$$
 R={r_1,r_2,\ldots,r_n}
-]
+$$
 
 检查：
 
@@ -2546,9 +2024,9 @@ R={r_1,r_2,\ldots,r_n}
 - 成本方差。
 
 Agent 系统不能只测试一次。
-##  常见问题与故障模式
+## 常见问题与故障模式
 
-###  无限循环
+### 无限循环
 
 表现：
 
@@ -2572,7 +2050,7 @@ Agent 系统不能只测试一次。
 - 无进展终止；
 - 强制切换策略；
 - 必要时转人工。
-###  提前终止
+### 提前终止
 
 Agent 在信息不足时直接回答。
 
@@ -2590,7 +2068,7 @@ Agent 在信息不足时直接回答。
 - 使用 Validator；
 - 对关键任务强制工具验证；
 - 完成前检查必需字段。
-###  重复工具调用
+### 重复工具调用
 
 原因：
 
@@ -2609,12 +2087,12 @@ Agent 在信息不足时直接回答。
       "args_hash": "abc123",
       "result_summary": "无结果"
     }
-  ]
+  $$
 }
 ```
 
 执行前检测相同参数哈希。
-###  上下文爆炸
+### 上下文爆炸
 
 表现：
 
@@ -2632,7 +2110,7 @@ Agent 在信息不足时直接回答。
 - 事实化状态；
 - 子图上下文隔离；
 - 定期压缩。
-###  错误累积
+### 错误累积
 
 早期错误事实进入 State 后，后续节点都以此为依据。
 
@@ -2644,7 +2122,7 @@ Agent 在信息不足时直接回答。
 - Validator 检查证据；
 - 支持撤销错误状态；
 - 保存状态版本。
-###  路由错误
+### 路由错误
 
 原因：
 
@@ -2659,7 +2137,7 @@ Agent 在信息不足时直接回答。
 - 减少候选路由；
 - 确定性规则优先；
 - 解析失败进入安全错误节点，而不是默认执行工具。
-###  状态竞争
+### 状态竞争
 
 并发节点同时写入同一字段。
 
@@ -2679,7 +2157,7 @@ Worker B：findings = [B]
 - 分支独立命名空间；
 - 聚合节点统一合并；
 - 乐观锁或版本号。
-###  重复副作用
+### 重复副作用
 
 表现：
 
@@ -2694,7 +2172,7 @@ Worker B：findings = [B]
 - 两阶段提交；
 - 执行前检查；
 - 重试策略区分读操作和写操作。
-###  验证器失效
+### 验证器失效
 
 验证器也是 LLM 时，可能出现：
 
@@ -2719,7 +2197,7 @@ Worker B：findings = [B]
 - SQL：数据库解析器；
 - 数值：程序计算；
 - 引用：来源核对。
-###  Graph 过度复杂
+### Graph 过度复杂
 
 表现：
 
@@ -2736,7 +2214,7 @@ Worker B：findings = [B]
 - 确定性流程使用普通函数；
 - 只在存在决策的位置创建节点；
 - 删除没有独立重试、观测或测试价值的节点。
-###  Agent 角色过多
+### Agent 角色过多
 
 多个 Agent 不一定比一个 Agent 更好。
 
@@ -2758,9 +2236,9 @@ Worker B：findings = [B]
 - 独立验证；
 
 才值得拆成多个 Agent。
-##  安全、权限与边界控制
+## 安全、权限与边界控制
 
-###  最小权限原则
+### 最小权限原则
 
 每个节点或 Agent 只获得完成任务所需的工具。
 
@@ -2774,7 +2252,7 @@ Worker B：findings = [B]
 ```
 
 不要让所有 Agent 默认拥有全部工具。
-###  Prompt Injection
+### Prompt Injection
 
 工具结果和外部文档中可能包含恶意指令：
 
@@ -2797,7 +2275,7 @@ Context 中应清晰隔离：
 ```text
 外部内容仅作为待分析数据，不得改变系统规则和权限。
 ```
-###  数据边界
+### 数据边界
 
 状态和 Trace 中可能包含：
 
@@ -2816,7 +2294,7 @@ Context 中应清晰隔离：
 - 按任务隔离；
 - 加密存储；
 - 权限审计。
-###  工具结果不等于事实
+### 工具结果不等于事实
 
 工具可能：
 
@@ -2831,7 +2309,7 @@ Context 中应清晰隔离：
 - 时间；
 - 可信等级；
 - 是否经过验证。
-###  高风险操作审批
+### 高风险操作审批
 
 对于不可逆操作，模型不能直接执行。
 
@@ -2844,9 +2322,9 @@ Context 中应清晰隔离：
 → 运行时执行
 → 验证并记录
 ```
-##  性能与成本优化
+## 性能与成本优化
 
-###  减少不必要的 LLM 节点
+### 减少不必要的 LLM 节点
 
 以下操作不需要模型：
 
@@ -2864,7 +2342,7 @@ Context 中应清晰隔离：
 - 成本；
 - 非确定性；
 - 失败概率。
-###  模型分层
+### 模型分层
 
 不同节点可以使用不同模型：
 
@@ -2877,7 +2355,7 @@ Context 中应清晰隔离：
 ```
 
 不需要所有节点都使用最强模型。
-###  缓存
+### 缓存
 
 可以缓存：
 
@@ -2889,7 +2367,7 @@ Context 中应清晰隔离：
 - 节点中间产物。
 
 但副作用工具不能简单缓存执行结果代替真实状态检查。
-###  批处理
+### 批处理
 
 多个独立的小任务可以批量处理：
 
@@ -2904,7 +2382,7 @@ Context 中应清晰隔离：
 ```
 
 前提是不会造成上下文过长或结果相互干扰。
-###  控制每轮上下文
+### 控制每轮上下文
 
 每一轮只提供：
 
@@ -2915,7 +2393,7 @@ Context 中应清晰隔离：
 - 需要的工具描述。
 
 不要每一轮重复全部文档和全部历史。
-###  提前终止低价值分支
+### 提前终止低价值分支
 
 并发生成多个候选方案时，可以先快速评估：
 
@@ -2926,9 +2404,9 @@ Context 中应清晰隔离：
 ```
 
 避免对所有分支投入相同成本。
-##  参考实现
+## 参考实现
 
-###  最小 Agent Loop
+### 最小 Agent Loop
 
 ```python
 from __future__ import annotations
@@ -3075,221 +2553,11 @@ def run_agent(
 ```text
 决策 → 执行 → 观察 → 更新 → 终止判断
 ```
-###  简化版 Agent Graph
-
-```python
-from __future__ import annotations
-
-from dataclasses import dataclass, field
-from typing import Any, Callable, Literal
-
-
-NodeName = Literal[
-    "planner",
-    "tool_executor",
-    "validator",
-    "finalizer",
-    "error_handler",
-    "end",
-]
-
-
-@dataclass
-class GraphState:
-    task: str
-    current_node: NodeName = "planner"
-    plan: list[str] = field(default_factory=list)
-    decision: dict[str, Any] = field(default_factory=dict)
-    tool_result: dict[str, Any] | None = None
-    validation: dict[str, Any] | None = None
-    final_answer: str | None = None
-    step_count: int = 0
-    errors: list[str] = field(default_factory=list)
-
-
-NodeFunction = Callable[[GraphState], GraphState]
-
-
-def planner_node(state: GraphState) -> GraphState:
-    # 实际项目中调用 LLM 生成结构化决策。
-    state.decision = {
-        "action": "call_tool",
-        "tool_name": "example_tool",
-        "arguments": {},
-    }
-    return state
-
-
-def tool_executor_node(state: GraphState) -> GraphState:
-    try:
-        state.tool_result = {
-            "success": True,
-            "data": "example result",
-        }
-    except Exception as exc:
-        state.errors.append(str(exc))
-    return state
-
-
-def validator_node(state: GraphState) -> GraphState:
-    state.validation = {
-        "passed": bool(state.tool_result),
-    }
-    return state
-
-
-def finalizer_node(state: GraphState) -> GraphState:
-    state.final_answer = "任务完成"
-    return state
-
-
-def error_handler_node(state: GraphState) -> GraphState:
-    state.final_answer = "任务执行失败：" + "; ".join(state.errors)
-    return state
-
-
-NODES: dict[NodeName, NodeFunction] = {
-    "planner": planner_node,
-    "tool_executor": tool_executor_node,
-    "validator": validator_node,
-    "finalizer": finalizer_node,
-    "error_handler": error_handler_node,
-}
-
-
-def route(state: GraphState) -> NodeName:
-    if state.current_node == "planner":
-        action = state.decision.get("action")
-
-        if action == "call_tool":
-            return "tool_executor"
-
-        if action == "finish":
-            return "finalizer"
-
-        return "error_handler"
-
-    if state.current_node == "tool_executor":
-        if state.errors:
-            return "error_handler"
-        return "validator"
-
-    if state.current_node == "validator":
-        if state.validation and state.validation["passed"]:
-            return "finalizer"
-        return "planner"
-
-    if state.current_node in {
-        "finalizer",
-        "error_handler",
-    }:
-        return "end"
-
-    return "error_handler"
-
-
-def run_graph(
-    state: GraphState,
-    max_steps: int = 10,
-) -> GraphState:
-    while state.current_node != "end":
-        if state.step_count >= max_steps:
-            state.errors.append("max_steps_exceeded")
-            state.current_node = "error_handler"
-
-        node = NODES.get(state.current_node)
-
-        if node is None:
-            state.errors.append(
-                f"unknown_node:{state.current_node}"
-            )
-            state.current_node = "error_handler"
-            continue
-
-        state = node(state)
-        state.step_count += 1
-        state.current_node = route(state)
-
-    return state
-```
-
-真实项目中应继续增加：
-
-```text
-Graph Schema
-Checkpoint Store
-Event Log
-Tool Registry
-Permission Manager
-Retry Policy
-Budget Manager
-Context Builder
-Model Gateway
-Human Approval
-Observability
-```
-###  带重试的工具执行器
-
-```python
-import time
-from dataclasses import dataclass
-from typing import Any, Callable
-
-
-@dataclass
-class ToolExecutionError(Exception):
-    error_type: str
-    message: str
-    retryable: bool = False
-
-
-def execute_with_retry(
-    function: Callable[..., Any],
-    arguments: dict[str, Any],
-    max_attempts: int = 3,
-    base_delay: float = 0.5,
-) -> Any:
-    last_error: Exception | None = None
-
-    for attempt in range(1, max_attempts + 1):
-        try:
-            return function(**arguments)
-
-        except ToolExecutionError as exc:
-            last_error = exc
-
-            if not exc.retryable:
-                raise
-
-            if attempt == max_attempts:
-                break
-
-            delay = base_delay * (2 ** (attempt - 1))
-            time.sleep(delay)
-
-        except Exception as exc:
-            # 未分类异常默认不自动重试，避免重复副作用。
-            raise ToolExecutionError(
-                error_type="unknown",
-                message=str(exc),
-                retryable=False,
-            ) from exc
-
-    raise ToolExecutionError(
-        error_type="retry_exhausted",
-        message=str(last_error),
-        retryable=False,
-    )
-```
-
-需要注意：
-
-> 写操作不能因为“出现异常”就自动重试，必须先确认第一次操作是否实际生效。
-##  工程化设计流程
+### 简化版 Agent Graph
 
 设计一个 Agent Loop / Graph 时，可以按照以下顺序进行。
 
-###  明确任务
+### 明确任务
 
 回答：
 
@@ -3298,7 +2566,7 @@ def execute_with_retry(
 - 成功标准是什么？
 - 哪些事情明确不做？
 - 是否真的需要 Agent？
-###  划分确定性与非确定性部分
+### 划分确定性与非确定性部分
 
 例如：
 
@@ -3309,7 +2577,7 @@ def execute_with_retry(
 | 读取文件             | 确定性   | 工具       |
 | 判断内容是否回答问题 | 非确定性 | LLM 或规则 |
 | 校验 JSON            | 确定性   | Schema     |
-###  定义 State
+### 定义 State
 
 为每个字段回答：
 
@@ -3320,7 +2588,7 @@ def execute_with_retry(
 - 是否包含敏感信息？
 - 如何合并？
 - 如何清理？
-###  定义节点
+### 定义节点
 
 每个节点写清：
 
@@ -3336,7 +2604,7 @@ def execute_with_retry(
 失败去向：
 是否有副作用：
 ```
-###  定义边和路由
+### 定义边和路由
 
 为每条边写明条件：
 
@@ -3351,7 +2619,7 @@ validator → planner
 validator → error_handler
 条件：retry_count >= max_retry
 ```
-###  定义预算
+### 定义预算
 
 至少配置：
 
@@ -3362,7 +2630,7 @@ max_tool_calls: 10
 max_consecutive_errors: 3
 timeout_seconds: 300
 ```
-###  定义检查点
+### 定义检查点
 
 明确：
 
@@ -3372,7 +2640,7 @@ timeout_seconds: 300
 - 如何恢复；
 - 如何迁移旧版本；
 - 如何防止重复副作用。
-###  定义 Trace
+### 定义 Trace
 
 至少能够回答：
 
@@ -3383,7 +2651,7 @@ timeout_seconds: 300
 状态在哪一步发生变化？
 为什么任务停止？
 ```
-###  定义测试
+### 定义测试
 
 包括：
 
@@ -3394,9 +2662,9 @@ timeout_seconds: 300
 - 端到端测试；
 - 多次运行稳定性测试；
 - 成本和延迟测试。
-##  Agent Loop / Graph 与其他工程思想的关系
+## Agent Loop / Graph 与其他工程思想的关系
 
-###  与 Prompt Engineering 的关系
+### 与 Prompt Engineering 的关系
 
 Prompt Engineering 主要解决：
 
@@ -3414,7 +2682,7 @@ Prompt Engineering 主要解决：
 - Finalizer Prompt。
 
 Prompt 是节点内部实现的一部分。
-###  与 Context Engineering 的关系
+### 与 Context Engineering 的关系
 
 Context Engineering 主要解决：
 
@@ -3434,7 +2702,7 @@ Context Engineering 决定：
 - 如何隔离不可信内容。
 
 因此，Agent Loop 是 Context Engineering 的主要运行场景之一。
-###  与 Harness Engineering 的关系
+### 与 Harness Engineering 的关系
 
 Harness Engineering 关注模型外部的完整运行系统，包括：
 
@@ -3456,7 +2724,7 @@ Harness Engineering 关注模型外部的完整运行系统，包括：
 Agent Loop / Graph
 是 Harness Engineering 中负责控制流和任务编排的核心部分。
 ```
-###  与 RAG 的关系
+### 与 RAG 的关系
 
 RAG 是 Agent 可以调用的一种能力。
 
@@ -3479,7 +2747,7 @@ Agent 决定：
 - 如何使用证据。
 
 RAG 解决知识获取问题，Agent Loop / Graph 解决执行控制问题。
-###  与 Workflow Engine 的关系
+### 与 Workflow Engine 的关系
 
 传统工作流引擎通常擅长：
 
@@ -3508,9 +2776,9 @@ Workflow Engine
 Agent Graph
 负责模型驱动的局部决策。
 ```
-##  最佳实践清单
+## 最佳实践清单
 
-###  设计阶段
+### 设计阶段
 
 -  确认任务确实需要 Agent；
 -  明确输入、输出和验收标准；
@@ -3524,7 +2792,7 @@ Agent Graph
 -  设置成本和时间预算；
 -  对高风险操作设置审批；
 -  为副作用工具设计幂等机制。
-###  实现阶段
+### 实现阶段
 
 -  节点职责单一；
 -  路由逻辑尽量确定性；
@@ -3537,7 +2805,7 @@ Agent Graph
 -  每个节点设置超时；
 -  关键节点写入检查点；
 -  保存 Graph 和 State 版本。
-###  调试阶段
+### 调试阶段
 
 -  查看完整执行路径；
 -  查看每个节点的 State Diff；
@@ -3550,7 +2818,7 @@ Agent Graph
 -  使用 Mock Tool；
 -  进行故障注入；
 -  同一输入运行多次测试稳定性。
-###  上线阶段
+### 上线阶段
 
 -  统计任务成功率；
 -  统计平均循环次数；
@@ -3563,7 +2831,7 @@ Agent Graph
 -  定期回放失败 Trace；
 -  建立失败样本评估集；
 -  对 Prompt、Graph 和模型分别版本化。
-##  总结
+## 总结
 
 Agent Loop 的本质是建立一个反馈闭环：
 

@@ -70,10 +70,43 @@ export default defineConfig({
       ],
       '/notes/computer-vision/': [
         {
-          text: '计算机视觉',
+          text: '基础',
+          collapsed: false,
           items: [
             { text: '概览', link: '/notes/computer-vision/' },
+            { text: '计算机视觉基础', link: '/notes/computer-vision/00-计算机视觉基础' },
+            { text: '目标检测基础', link: '/notes/computer-vision/01-目标检测基础' },
             { text: '目标追踪', link: '/notes/computer-vision/object-tracking' }
+          ]
+        },
+        {
+          text: '目标检测算法',
+          collapsed: false,
+          items: [
+            { text: 'YOLOv5与YOLO11', link: '/notes/computer-vision/02-YOLOv5与YOLO11' },
+            { text: 'DETR与RT-DETRv2', link: '/notes/computer-vision/03-DETR与RT-DETRv2' },
+            { text: 'RT-DETRv3与v4演进', link: '/notes/computer-vision/04-RT-DETRv3与v4演进' }
+          ]
+        },
+        {
+          text: '多目标追踪',
+          collapsed: false,
+          items: [
+            { text: '足球追踪问题定义', link: '/notes/computer-vision/05-足球追踪问题定义' },
+            { text: 'KF、IMM-KF与Viterbi', link: '/notes/computer-vision/06-KF-IMMKF-Viterbi' },
+            { text: 'ByteTrack与CoTracker', link: '/notes/computer-vision/07-ByteTrack-CoTracker' },
+            { text: 'TrackNetV4与TOTNet', link: '/notes/computer-vision/08-TrackNetV4-TOTNet' },
+            { text: '足球完整追踪流水线', link: '/notes/computer-vision/09-足球完整追踪流水线' }
+          ]
+        },
+        {
+          text: '足球视频理解',
+          collapsed: false,
+          items: [
+            { text: 'Action Spotting与SoccerNet', link: '/notes/computer-vision/10-ActionSpotting-SoccerNet' },
+            { text: 'T-DEED与dude.k', link: '/notes/computer-vision/11-T-DEED-dudek' },
+            { text: '多模态足球理解', link: '/notes/computer-vision/12-多模态足球理解' },
+            { text: 'NVIDIA VSS', link: '/notes/computer-vision/13-NVIDIA-VSS' }
           ]
         }
       ],

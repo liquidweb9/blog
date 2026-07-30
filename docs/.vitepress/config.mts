@@ -33,6 +33,7 @@ export default withMermaid(defineConfig({
           { text: '密码学与隐私计算', link: '/notes/cryptography/' }
         ]
       },
+      { text: '每日技术', link: '/daily/' },
       { text: '项目实践', link: '/projects/' },
       { text: '开发日志', link: '/devlog/' },
       { text: '简历', link: '/resume' }
@@ -201,6 +202,16 @@ export default withMermaid(defineConfig({
             { text: '隐私增强协议与差分隐私', link: '/notes/cryptography/06-privacy-enhancing-protocols-and-differential-privacy' },
             { text: '后量子密码与可信硬件', link: '/notes/cryptography/07-post-quantum-cryptography' },
             { text: '联邦学习与密码系统安全', link: '/notes/cryptography/08-federated-learning-and-cryptosystem-security' }
+          ]
+        }
+      ],
+      '/daily/': [
+        {
+          text: '每日技术',
+          items: [
+            { text: '最新文章', link: '/daily/' },
+            { text: '文章归档', link: '/daily/archive' },
+            { text: '标签分类', link: '/daily/tags' }
           ]
         }
       ],

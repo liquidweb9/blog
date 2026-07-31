@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { withBase } from 'vitepress'
 import { data as articles } from '../../daily.data'
 
 const props = withDefaults(defineProps<{
@@ -45,12 +46,16 @@ function formatMonth(month: string): string {
   const [year, value] = month.split('-')
   return `${year} 年 ${Number(value)} 月`
 }
+
+function articleLink(url: string): string {
+  return withBase(url)
+}
 </script>
 
 <template>
   <template v-if="mode === 'latest'">
     <article v-for="article in latestArticles" :key="article.url" class="daily-article">
-      <h3><a :href="article.url">{{ article.title }}</a></h3>
+      <h3><a :href="articleLink(article.url)">{{ article.title }}</a></h3>
       <p class="daily-meta">
         <code>{{ article.date }}</code><span v-for="tag in article.tags" :key="tag"> · <code>{{ tag }}</code></span>
       </p>
@@ -64,7 +69,7 @@ function formatMonth(month: string): string {
       <h2>{{ formatMonth(month) }}</h2>
       <ul>
         <li v-for="article in monthArticles" :key="article.url">
-          <code>{{ article.date }}</code> <a :href="article.url">{{ article.title }}</a>
+          <code>{{ article.date }}</code> <a :href="articleLink(article.url)">{{ article.title }}</a>
         </li>
       </ul>
     </section>
@@ -75,7 +80,7 @@ function formatMonth(month: string): string {
       <h2>{{ tag }}</h2>
       <ul>
         <li v-for="article in tagArticles" :key="article.url">
-          <code>{{ article.date }}</code> <a :href="article.url">{{ article.title }}</a>
+          <code>{{ article.date }}</code> <a :href="articleLink(article.url)">{{ article.title }}</a>
         </li>
       </ul>
     </section>

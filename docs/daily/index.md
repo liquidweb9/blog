@@ -16,17 +16,7 @@ description: 每天用一篇短文，讲清楚一个技术概念或工程实践�
 
 ## 最新文章
 
-### [用 Code、Schema、Manifest、Validator 给 AI Agent 套上缰绳](/daily/2026/07/2026-07-30-daily-agent-harness)
-
-`2026-07-30` · `Agent` · `工程实践`
-
-Agent Harness 通过代码、Schema、Manifest 和验证器，把不确定的模型行为变成可控制的软件行为。
-
-### [Hooks 机制：从 Git 到 Agent 的自动触发](/daily/2026/07/2026-07-30-daily-hooks)
-
-`2026-07-30` · `Git` · `CI/CD` · `工程实践`
-
-Hooks 是在特定事件发生时自动触发的脚本，对比 Git Hooks 和 Agent Hooks 的使用场景和最佳实践。
+<DailyArticles mode="latest" />
 
 ## 浏览专栏
 

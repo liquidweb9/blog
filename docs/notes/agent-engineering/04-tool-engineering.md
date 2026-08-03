@@ -2,6 +2,8 @@
 
 > Function Call 解决模型如何提出结构化动作，Tool Engineering 解决动作如何安全可靠地执行，MCP 解决能力如何以统一协议被发现和连接。
 
+---
+
 ## 1. 三层边界
 
 ```text

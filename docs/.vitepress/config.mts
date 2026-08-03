@@ -99,6 +99,7 @@ export default withMermaid(defineConfig({
           items: [
             { text: '操作系统与并发编程', link: '/notes/backend/01-computer-fundamentals' },
             { text: '计算机网络与HTTP', link: '/notes/backend/02-computer-networks-and-http' },
+            { text: 'HTTP、HTTPS与HTTP版本', link: '/notes/backend/03-http-https-and-http-versions' },
             { text: '编程语言与运行时', link: '/notes/backend/03-programming-languages-and-runtimes' }
           ]
         },

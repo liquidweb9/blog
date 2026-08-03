@@ -2,6 +2,8 @@
 
 > Harness 是包围模型的工程外壳：它把 Prompt、上下文、工具、状态、策略、Graph、Memory、评估和运行时组合成一个可重复交付的 Agent 系统。
 
+---
+
 ## 1. Harness 的职责
 
 一个生产级 Harness 通常负责：

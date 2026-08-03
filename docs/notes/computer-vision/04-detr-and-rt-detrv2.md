@@ -1,5 +1,7 @@
 # DETR与RT-DETRv2
 
+---
+
 ## 1. 模型解决什么问题
 
 DETR（Detection Transformer）是 Facebook AI 在 2020 年提出的检测范式革新——将目标检测重新定义为"集合预测（Set Prediction）"问题，用 Transformer Encoder-Decoder 直接输出一组预测框，完全消除 NMS 和 Anchor 等手工设计的组件。

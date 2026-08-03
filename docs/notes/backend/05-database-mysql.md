@@ -1,5 +1,7 @@
 # MySQL
 
+---
+
 ## 1. 它是什么
 
 MySQL 是一个开源的关系型数据库管理系统（RDBMS），使用 SQL（Structured Query Language）作为查询语言。它以表格（Table）的形式组织数据，表由行（Row）和列（Column）构成，表之间通过外键等约束建立关联。

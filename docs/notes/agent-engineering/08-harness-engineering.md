@@ -2,6 +2,8 @@
 
 > Prompt Engineering 设计单次模型调用的指令，Context Engineering 决定本轮推理应该看到什么，Harness Engineering 则负责让模型、上下文、工具和状态组成一个可以持续运行的系统。
 
+---
+
 ## 1. 引言：LLM 工程关注点为什么不断扩大
 
 大语言模型应用最初大多采用单轮调用：

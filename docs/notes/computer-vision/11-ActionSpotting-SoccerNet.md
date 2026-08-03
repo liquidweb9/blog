@@ -1,5 +1,7 @@
 # Action Spotting与SoccerNet
 
+---
+
 ## 1. 任务定义
 
 Action Spotting（事件定位）是在长视频中检测特定事件的发生时刻，输出事件类别和时间戳。与Temporal Action Localization（TAL）不同，Action Spotting的事件通常是瞬间的（单时间戳），而不是持续一段时间的时间段。

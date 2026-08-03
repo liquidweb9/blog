@@ -1,5 +1,7 @@
 # Web框架与项目分层
 
+---
+
 ## 1. 它是什么
 
 Web框架（Web Framework）是构建Web应用程序的基础设施软件，它提供了一套标准化的架构和工具，帮助开发者快速、稳定地构建Web服务。Spring Boot是目前Java生态中最主流的Web框架，它基于Spring Framework，通过自动配置（Auto-Configuration）和起步依赖（Starter）大幅简化了Spring应用的搭建和开发过程。

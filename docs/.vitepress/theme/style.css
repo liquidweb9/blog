@@ -235,8 +235,8 @@ body {
 
 .vp-doc h2 {
   margin-top: 3.6rem;
-  padding-top: 1.3rem;
-  border-top: 1px solid var(--reading-rule);
+  border-top: none;
+  padding-top: 0;
   font-size: 1.65rem;
   line-height: 1.35;
   letter-spacing: -0.025em;

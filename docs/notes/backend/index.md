@@ -16,6 +16,7 @@
 ### 基础
 - [操作系统与并发编程](./01-computer-fundamentals)
 - [计算机网络与HTTP](./02-computer-networks-and-http)
+- [HTTP、HTTPS与HTTP版本](./03-http-https-and-http-versions)
 - [编程语言与运行时](./03-programming-languages-and-runtimes)
 
 ### Web 与数据

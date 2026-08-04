@@ -118,6 +118,8 @@ export default withMermaid(defineConfig({
           items: [
             { text: '消息队列', link: '/notes/backend/07-message-queues' },
             { text: '分布式系统与可靠性', link: '/notes/backend/08-distributed-systems-and-reliability' },
+            { text: '幂等性与可靠副作用控制', link: '/notes/backend/15-idempotency' },
+            { text: '并发与高并发系统设计', link: '/notes/backend/16-concurrency-and-high-load' },
             { text: '安全', link: '/notes/backend/09-security' }
           ]
         },

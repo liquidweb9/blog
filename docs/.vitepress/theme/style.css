@@ -251,6 +251,52 @@ body {
 .vp-doc .header-anchor { color: var(--vp-c-brand-1); }
 .vp-doc strong { color: var(--vp-c-text-1); font-weight: 700; }
 
+/* Collapsible section headings: a small triangle toggles visibility. */
+.vp-doc h2.vp-has-toggle,
+.vp-doc h3.vp-has-toggle,
+.vp-doc h4.vp-has-toggle {
+  padding-left: 1.5em;
+  position: relative;
+}
+
+.vp-doc .vp-collapse-toggle {
+  position: absolute;
+  left: 0.1em;
+  top: 0.62em;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--vp-c-text-3);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 160ms ease;
+}
+
+.vp-doc .vp-collapse-toggle:hover { color: var(--vp-c-brand-1); }
+
+.vp-doc .vp-collapse-toggle::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid currentColor;
+  border-left: 0.32em solid transparent;
+  border-right: 0.32em solid transparent;
+  transition: transform 160ms ease;
+}
+
+.vp-doc h2.vp-collapsed > .vp-collapse-toggle::before,
+.vp-doc h3.vp-collapsed > .vp-collapse-toggle::before,
+.vp-doc h4.vp-collapsed > .vp-collapse-toggle::before {
+  transform: rotate(-90deg);
+}
+
+.vp-doc .vp-collapse-hidden { display: none; }
+
 .vp-doc a {
   color: var(--vp-c-brand-1);
   text-decoration: underline;

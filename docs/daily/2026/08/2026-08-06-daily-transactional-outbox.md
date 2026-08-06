@@ -237,4 +237,4 @@ pending ──领取──> in_flight ──发布成功──> sent / 删除
 - [Microservices.io：Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html)
 - [Message Delivery Semantics（消息投递语义）](https://kafka.apache.org/documentation/#semantics)
 - [Debezium：基于 CDC 的事件流](https://debezium.io/documentation/reference/stable/tutorial.html)
-- [每日技术：Alembic——如何让 SQLAlchemy 的表结构变更安全上线](/blog/daily/2026/07/2026-07-31-alembic-database-migrations)
+- [每日技术：Alembic——如何让 SQLAlchemy 的表结构变更安全上线](/daily/2026/07/2026-07-31-alembic-database-migrations)

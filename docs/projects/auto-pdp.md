@@ -1,3 +1,13 @@
+---
+title: 商业定价智能助手 Auto-PDP
+description: 基于 LangGraph 与 Azure OpenAI 的商业定价 Agent，支持价格模拟、根因分析和合同信息查询。
+tags:
+  - Agent
+  - LLM
+  - LangGraph
+featured: true
+---
+
 # 商业定价智能助手 Auto-PDP
 
 ## 项目背景

@@ -1,3 +1,13 @@
+---
+title: FindJob：AI 求职助手
+description: 覆盖简历解析、岗位混合检索、智能推荐与自动填表的全栈 AI 求职产品。
+tags:
+  - Agent
+  - 全栈
+  - RAG
+featured: true
+---
+
 # FindJob：AI 求职助手
 
 **角色：全栈开发者** · `2026.06—2026.07`

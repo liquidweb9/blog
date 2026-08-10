@@ -1,3 +1,13 @@
+---
+title: 问鉴 · Wenjian
+description: 简历驱动的 AI 模拟面试平台，基于真实项目经历生成个性化问题，通过连续追问、回答评分和证据分析还原接近真实的面试训练。
+tags:
+  - Agent
+  - LLM
+  - 全栈
+featured: true
+---
+
 # 问鉴 · Wenjian
 
 > 不止是“问过什么”，更要鉴别“你是否真的做过”。

@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import DailyArticles from './components/DailyArticles.vue'
 import CollapsibleHeadings from './components/CollapsibleHeadings.vue'
+import HomeSections from './components/HomeSections.vue'
 import './style.css'
 
 export default {
@@ -12,5 +13,6 @@ export default {
     }),
   enhanceApp({ app }) {
     app.component('DailyArticles', DailyArticles)
+    app.component('HomeSections', HomeSections)
   }
 }

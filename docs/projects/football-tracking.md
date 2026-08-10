@@ -1,3 +1,13 @@
+---
+title: FIFA 足球赛事视频处理系统
+description: 覆盖回放检测、足球追踪、智能裁切、语音识别和多比例视频生成的赛事短视频自动化生产系统。
+tags:
+  - 计算机视觉
+  - 视频
+  - FastAPI
+featured: true
+---
+
 # FIFA Creative Studio AI 足球赛事视频处理系统
 
 ## 项目简介

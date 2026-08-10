@@ -42,3 +42,5 @@ features:
     details: 以时间为线索，保留问题、决策、进展和复盘。
     link: /devlog/
 ---
+
+<HomeSections />

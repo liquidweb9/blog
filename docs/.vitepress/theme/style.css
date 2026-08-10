@@ -173,6 +173,103 @@ body {
 .VPFeatures { padding: 54px 24px 76px; }
 .VPFeatures .container { max-width: 1080px; }
 
+/* Homepage extra sections: recent updates + featured projects */
+.VPHomeContent .vp-doc.container { max-width: 1080px; }
+
+.home-section { margin: 0 0 3.2rem; }
+
+.home-section-title {
+  margin: 0 0 1.1rem;
+  color: var(--vp-c-text-1);
+  font-family: Georgia, 'Noto Serif SC', 'Songti SC', serif;
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.home-updates { list-style: none; margin: 0; padding: 0; }
+
+.home-update {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--reading-rule);
+}
+
+.home-update:last-child { border-bottom: none; }
+
+.home-update-date {
+  flex: 0 0 auto;
+  color: var(--vp-c-text-3);
+  font-size: 0.8rem;
+}
+
+.home-update-title {
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.home-update-kind {
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  border: 1px solid var(--reading-rule);
+  border-radius: 999px;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-soft);
+  font-size: 0.72rem;
+}
+
+.home-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.home-project {
+  display: block;
+  padding: 20px;
+  border: 1px solid var(--reading-rule);
+  border-radius: 8px;
+  background: var(--vp-c-bg-elv);
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.home-project:hover {
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 55%, var(--reading-rule));
+  box-shadow: var(--reading-shadow);
+  transform: translateY(-2px);
+}
+
+.home-project-title {
+  margin: 0 0 8px;
+  color: var(--vp-c-text-1);
+  font-family: Georgia, 'Noto Serif SC', 'Songti SC', serif;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.home-project-desc {
+  margin: 0 0 12px;
+  color: var(--vp-c-text-2);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.home-project-tags { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.home-project-tags code {
+  padding: 2px 8px;
+  border: 1px solid var(--reading-rule);
+  border-radius: 999px;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-soft);
+  font-size: 0.72rem;
+}
+
 .VPFeature {
   height: 100%;
   padding: 24px;

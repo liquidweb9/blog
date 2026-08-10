@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://liquidweb9.github.io/blog/sitemap.xml

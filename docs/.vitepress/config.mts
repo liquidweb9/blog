@@ -1,5 +1,16 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+import type { HeadConfig } from 'vitepress'
+import { generateRss } from './rss'
+
+const siteUrl = 'https://liquidweb9.github.io'
+const base = '/blog/'
+
+const ogImage = `${siteUrl}${base}og-image.png`
+
+function buildJsonLd(data: object): HeadConfig {
+  return ['script', { type: 'application/ld+json' }, JSON.stringify(data)]
+}
 
 export default withMermaid(defineConfig({
   lang: 'zh-CN',
@@ -8,16 +19,110 @@ export default withMermaid(defineConfig({
   },
   title: '邓厚锐',
   description: '邓厚锐的个人博客、学习笔记与项目实践',
-  base: '/blog/',
+  base,
   cleanUrls: true,
   lastUpdated: true,
   sitemap: {
-    hostname: 'https://liquidweb9.github.io/blog/'
+    hostname: `${siteUrl}${base}`
   },
   head: [
     ['meta', { name: 'theme-color', content: '#3b67f2' }],
-    ['meta', { name: 'author', content: '邓厚锐' }]
+    ['meta', { name: 'author', content: '邓厚锐' }],
+    ['meta', { name: 'robots', content: 'index, follow' }],
+    ['meta', { name: 'google-site-verification', content: 'google1bd10f98672dc163.html' }],
+    ['link', { rel: 'alternate', type: 'application/rss+xml', title: '邓厚锐的博客 RSS', href: `${siteUrl}${base}rss.xml` }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: '邓厚锐' }],
+    ['meta', { property: 'og:title', content: '邓厚锐 | Backend Engineering · AI Applications' }],
+    ['meta', { property: 'og:description', content: '邓厚锐的个人博客、学习笔记与项目实践' }],
+    ['meta', { property: 'og:url', content: `${siteUrl}${base}` }],
+    ['meta', { property: 'og:image', content: ogImage }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: '邓厚锐 | Backend Engineering · AI Applications' }],
+    ['meta', { name: 'twitter:description', content: '邓厚锐的个人博客、学习笔记与项目实践' }],
+    ['meta', { name: 'twitter:image', content: ogImage }]
   ],
+  transformHead: ({ pageData, page, siteData }) => {
+    const head: HeadConfig[] = []
+    const cleanPage = page.replace(/\.md$/, '')
+    const url = `${siteUrl}${base}${cleanPage.replace(/^\//, '')}`
+
+    const isDaily = cleanPage.startsWith('daily/')
+    const isProject = cleanPage.startsWith('projects/')
+    const isHome = cleanPage === 'index' || cleanPage === ''
+
+    if (!isHome && pageData.title !== siteData.title) {
+      head.push(['meta', { property: 'og:title', content: pageData.title }])
+      head.push(['meta', { name: 'twitter:title', content: pageData.title }])
+      head.push(['link', { rel: 'canonical', href: url }])
+    }
+
+    if (pageData.description && !isHome) {
+      head.push(['meta', { property: 'og:description', content: pageData.description }])
+      head.push(['meta', { name: 'twitter:description', content: pageData.description }])
+    }
+
+    head.push(['meta', { property: 'og:url', content: isHome ? `${siteUrl}${base}` : url }])
+
+    if (isHome) {
+      head.push(['link', { rel: 'canonical', href: `${siteUrl}${base}` }])
+    }
+
+    const graph: Record<string, unknown> = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: siteData.title,
+      url: `${siteUrl}${base}`,
+      description: siteData.description,
+      inLanguage: 'zh-CN'
+    }
+
+    if (isDaily) {
+      const date = typeof pageData.frontmatter.date === 'string' ? pageData.frontmatter.date : undefined
+      head.push(buildJsonLd({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: pageData.title,
+        description: pageData.description || undefined,
+        url,
+        inLanguage: 'zh-CN',
+        datePublished: date,
+        dateModified: pageData.lastUpdated ? new Date(pageData.lastUpdated).toISOString() : undefined,
+        author: {
+          '@type': 'Person',
+          name: '邓厚锐'
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: siteData.title
+        },
+        image: ogImage,
+        mainEntityOfPage: url
+      }))
+    } else if (isProject) {
+      head.push(buildJsonLd({
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        headline: pageData.title,
+        description: pageData.description || undefined,
+        url,
+        inLanguage: 'zh-CN',
+        creator: {
+          '@type': 'Person',
+          name: '邓厚锐'
+        }
+      }))
+    } else {
+      head.push(buildJsonLd(graph))
+    }
+
+    return head
+  },
+  buildEnd: async (siteConfig) => {
+    await generateRss(siteConfig)
+  },
   themeConfig: {
     logo: '/logo.svg',
     siteTitle: '邓厚锐',

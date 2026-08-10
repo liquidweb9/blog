@@ -8,7 +8,7 @@ description: 邓厚锐的教育、实习、项目与学术经历
 
 > Backend Engineering · AI Applications
 
-[herry.liquor@gmail.com](mailto:herry.liquor@gmail.com) · `(+86) 132 7265 2805` · 四川·南充
+[herry.liquor@gmail.com](mailto:herry.liquor@gmail.com) 
 
 ## 个人概述
 

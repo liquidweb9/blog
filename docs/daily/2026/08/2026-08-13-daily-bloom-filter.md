@@ -45,7 +45,7 @@ description: 布隆过滤器用位数组和多个哈希函数，以极小内存�
 
 ---
 
-# 2. 为什么需要布隆过滤器
+## 2. 为什么需要布隆过滤器
 
 假设现在有一个系统，需要判断某个用户 ID 是否存在。
 
@@ -121,7 +121,7 @@ userId = 999999999999
 
 ---
 
-# 3. 布隆过滤器的数据结构
+## 3. 布隆过滤器的数据结构
 
 布隆过滤器主要由两个部分组成：
 
@@ -133,7 +133,7 @@ Bloom Filter
 └── Hash Functions
 ```
 
-## 3.1 Bit Array
+### 3.1 Bit Array
 
 首先创建一个长度为 `m` 的位数组。
 
@@ -178,7 +178,7 @@ m = 16
 
 ---
 
-# 4. 添加元素的过程
+## 4. 添加元素的过程
 
 假设现在需要向 Bloom Filter 中添加：
 
@@ -224,7 +224,7 @@ k = 哈希函数数量
 
 ---
 
-# 5. 查询元素的过程
+## 5. 查询元素的过程
 
 假设查询：
 
@@ -266,7 +266,7 @@ true
 
 ---
 
-# 6. 为什么“不存在”一定准确
+## 6. 为什么“不存在”一定准确
 
 假设查询：
 
@@ -324,7 +324,7 @@ false
 
 ---
 
-# 7. 为什么“存在”不一定准确
+## 7. 为什么“存在”不一定准确
 
 这是 Bloom Filter 最重要的地方。
 
@@ -393,7 +393,7 @@ C 从来没有插入过
 
 ---
 
-# 8. Bloom Filter 的核心特性
+## 8. Bloom Filter 的核心特性
 
 因此可以总结为：
 
@@ -419,7 +419,7 @@ C 从来没有插入过
 
 ---
 
-# 9. 为什么不能直接使用 HashSet
+## 9. 为什么不能直接使用 HashSet
 
 有人可能会问：
 
@@ -495,7 +495,7 @@ Bloom Filter
 
 ---
 
-# 10. 时间复杂度
+## 10. 时间复杂度
 
 假设 Bloom Filter 使用：
 
@@ -537,7 +537,7 @@ O(m)
 
 ---
 
-# 11. 布隆过滤器的数学模型
+## 11. 布隆过滤器的数学模型
 
 布隆过滤器通常有三个重要参数：
 
@@ -561,7 +561,7 @@ k = 7
 
 ---
 
-## 11.1 一个 bit 仍然为 0 的概率
+### 11.1 一个 bit 仍然为 0 的概率
 
 假设 Bit Array 长度为：
 
@@ -611,7 +611,7 @@ e^(-kn/m)
 
 ---
 
-# 12. Bloom Filter 的误判率
+## 12. Bloom Filter 的误判率
 
 查询一个实际上不存在的元素。
 
@@ -653,7 +653,7 @@ k 并不是越大越好
 
 ---
 
-# 13. 最优 Hash Function 数量
+## 13. 最优 Hash Function 数量
 
 在：
 
@@ -709,7 +709,7 @@ k = 7
 
 ---
 
-# 14. 根据误判率计算 Bit Array 大小
+## 14. 根据误判率计算 Bit Array 大小
 
 实际开发中，我们通常知道：
 
@@ -747,7 +747,7 @@ k = (m / n) × ln2
 
 ---
 
-# 15. Java 简单实现 Bloom Filter
+## 15. Java 简单实现 Bloom Filter
 
 下面实现一个简化版 Bloom Filter。
 
@@ -886,7 +886,7 @@ bloomFilter.mightContain("user:1001")
 
 ---
 
-# 16. 使用 Guava BloomFilter
+## 16. 使用 Guava BloomFilter
 
 实际 Java 项目通常不需要自己实现 Bloom Filter。
 
@@ -979,7 +979,7 @@ public class BloomFilterDemo {
 
 ---
 
-# 17. 本地 Bloom Filter 的问题
+## 17. 本地 Bloom Filter 的问题
 
 虽然 Guava Bloom Filter 很方便，但它存在一个明显问题：
 
@@ -1032,7 +1032,7 @@ Server C → Bloom Filter C
 
 ---
 
-# 18. Redis Bloom Filter
+## 18. Redis Bloom Filter
 
 Redis 可以通过 RedisBloom 模块提供 Bloom Filter。
 
@@ -1106,7 +1106,7 @@ BF.EXISTS user:bloom 100001
 
 ---
 
-# 19. Bloom Filter 解决缓存穿透
+## 19. Bloom Filter 解决缓存穿透
 
 这是 Bloom Filter 最经典的应用场景。
 
@@ -1208,7 +1208,7 @@ public Product getProduct(Long productId) {
 
 ---
 
-# 20. 新增数据怎么办
+## 20. 新增数据怎么办
 
 这是实际项目中非常重要的问题。
 
@@ -1295,7 +1295,7 @@ Binlog
 
 ---
 
-# 21. 数据库与 Bloom Filter 一致性问题
+## 21. 数据库与 Bloom Filter 一致性问题
 
 例如：
 
@@ -1347,7 +1347,7 @@ Bloom Filter 定期重建
 
 ---
 
-# 22. Bloom Filter 为什么不能直接删除元素
+## 22. Bloom Filter 为什么不能直接删除元素
 
 普通 Bloom Filter 有一个重要限制：
 
@@ -1412,7 +1412,7 @@ B 不存在
 
 ---
 
-# 23. Counting Bloom Filter
+## 23. Counting Bloom Filter
 
 如果业务必须支持删除，可以使用：
 
@@ -1490,7 +1490,7 @@ bit[5] = 1
 
 ---
 
-# 24. Bloom Filter 容量超过预期会发生什么
+## 24. Bloom Filter 容量超过预期会发生什么
 
 创建 Bloom Filter 时一般需要指定：
 
@@ -1579,11 +1579,11 @@ Bloom Filter 就基本失去了过滤价值。
 
 ---
 
-# 25. Bloom Filter 的典型应用场景
+## 25. Bloom Filter 的典型应用场景
 
 除了缓存穿透之外，还有很多应用。
 
-## 25.1 URL 去重
+### 25.1 URL 去重
 
 爬虫系统可能需要抓取：
 
@@ -1609,7 +1609,7 @@ Bloom Filter 可以快速判断：
 
 ---
 
-## 25.2 用户是否看过某条内容
+### 25.2 用户是否看过某条内容
 
 推荐系统：
 
@@ -1631,7 +1631,7 @@ Bloom Filter 可以快速判断：
 
 ---
 
-## 25.3 黑名单判断
+### 25.3 黑名单判断
 
 例如：
 
@@ -1646,7 +1646,7 @@ IP 黑名单
 
 ---
 
-## 25.4 数据库 Join 优化
+### 25.4 数据库 Join 优化
 
 在分布式数据库中执行：
 
@@ -1664,7 +1664,7 @@ IP 黑名单
 
 ---
 
-## 25.5 大数据系统
+### 25.5 大数据系统
 
 Bloom Filter 在很多大型系统中都有应用，例如：
 
@@ -1691,7 +1691,7 @@ RocksDB
 
 ---
 
-# 26. Bloom Filter 与其他数据结构对比
+## 26. Bloom Filter 与其他数据结构对比
 
 | 数据结构                  | 空间 |          查询 | 精确性 |      删除 |
 | --------------------- | -: | ----------: | --: | ------: |
@@ -1702,7 +1702,7 @@ RocksDB
 
 ---
 
-# 27. Bitmap 和 Bloom Filter 的区别
+## 27. Bitmap 和 Bloom Filter 的区别
 
 Bitmap 也使用 bit。
 
@@ -1761,15 +1761,15 @@ False Positive
 
 ---
 
-# 28. Bloom Filter 的优点
+## 28. Bloom Filter 的优点
 
 Bloom Filter 的主要优点包括：
 
-### 1. 空间效率极高
+#### 1. 空间效率极高
 
 只需要保存 bit。
 
-### 2. 查询速度非常快
+#### 2. 查询速度非常快
 
 查询只需要：
 
@@ -1779,11 +1779,11 @@ k 次 Hash
 k 次 Bit 查询
 ```
 
-### 3. 插入速度快
+#### 3. 插入速度快
 
 不需要维护复杂的数据结构。
 
-### 4. 适合超大规模数据
+#### 4. 适合超大规模数据
 
 例如：
 
@@ -1797,21 +1797,21 @@ k 次 Bit 查询
 
 ---
 
-# 29. Bloom Filter 的缺点
+## 29. Bloom Filter 的缺点
 
 Bloom Filter 同样有明显限制。
 
-### 1. 存在误判
+#### 1. 存在误判
 
 ```text
 true ≠ 一定存在
 ```
 
-### 2. 普通 Bloom Filter 不支持删除
+#### 2. 普通 Bloom Filter 不支持删除
 
 因为多个元素可能共享 bit。
 
-### 3. 必须提前估计容量
+#### 3. 必须提前估计容量
 
 需要合理估算：
 
@@ -1822,7 +1822,7 @@ p
 
 否则误判率可能越来越高。
 
-### 4. 无法获取原始数据
+#### 4. 无法获取原始数据
 
 Bloom Filter 只能回答：
 
@@ -1836,7 +1836,7 @@ Bloom Filter 只能回答：
 这个元素具体是什么？
 ```
 
-### 5. 无法遍历数据
+#### 5. 无法遍历数据
 
 Bloom Filter 中没有保存原始元素，因此不能：
 
@@ -1848,7 +1848,7 @@ forEach
 
 ---
 
-# 30. Bloom Filter 的完整工作流程
+## 30. Bloom Filter 的完整工作流程
 
 插入：
 
@@ -1902,7 +1902,7 @@ forEach
 
 ---
 
-# 31. 一个比较完整的缓存查询方案
+## 31. 一个比较完整的缓存查询方案
 
 在实际项目中，可以设计为：
 
@@ -1952,7 +1952,7 @@ MySQL
 
 ---
 
-# 32. Bloom Filter 在缓存架构中的定位
+## 32. Bloom Filter 在缓存架构中的定位
 
 可以将缓存体系理解为：
 
@@ -1990,9 +1990,9 @@ Bloom Filter != Cache
 
 ---
 
-# 33. 面试常见问题
+## 33. 面试常见问题
 
-## Q1：什么是 Bloom Filter？
+### Q1：什么是 Bloom Filter？
 
 Bloom Filter 是一种基于：
 
@@ -2020,7 +2020,7 @@ Bit Array
 
 ---
 
-## Q2：为什么 Bloom Filter 会产生误判？
+### Q2：为什么 Bloom Filter 会产生误判？
 
 因为：
 
@@ -2034,7 +2034,7 @@ Bit Array
 
 ---
 
-## Q3：Bloom Filter 会不会出现 False Negative？
+### Q3：Bloom Filter 会不会出现 False Negative？
 
 从算法本身来说：
 
@@ -2055,7 +2055,7 @@ Bloom Filter 更新失败
 
 ---
 
-## Q4：Bloom Filter 为什么不能删除？
+### Q4：Bloom Filter 为什么不能删除？
 
 因为不同元素可能共享相同 bit。
 
@@ -2075,7 +2075,7 @@ Counting Bloom Filter
 
 ---
 
-## Q5：Hash Function 是越多越好吗？
+### Q5：Hash Function 是越多越好吗？
 
 不是。
 
@@ -2099,7 +2099,7 @@ k = (m / n) × ln2
 
 ---
 
-## Q6：Bloom Filter 满了怎么办？
+### Q6：Bloom Filter 满了怎么办？
 
 严格来说不是“满”，而是随着元素不断增加：
 
@@ -2127,7 +2127,7 @@ False Positive Rate
 
 ---
 
-## Q7：Bloom Filter 可以解决缓存击穿吗？
+### Q7：Bloom Filter 可以解决缓存击穿吗？
 
 不能直接解决。
 
@@ -2159,11 +2159,11 @@ SingleFlight
 
 ---
 
-# 34. Bloom Filter、缓存穿透、缓存击穿、缓存雪崩
+## 34. Bloom Filter、缓存穿透、缓存击穿、缓存雪崩
 
 这几个概念非常容易混淆。
 
-## 缓存穿透
+### 缓存穿透
 
 ```text
 请求的数据根本不存在
@@ -2189,7 +2189,7 @@ Bloom Filter
 
 ---
 
-## 缓存击穿
+### 缓存击穿
 
 ```text
 一个热点 Key 突然过期
@@ -2213,7 +2213,7 @@ SingleFlight
 
 ---
 
-## 缓存雪崩
+### 缓存雪崩
 
 ```text
 大量 Key 同时过期
@@ -2249,11 +2249,11 @@ Redis 高可用
 
 ---
 
-# 35. 实际项目设计建议
+## 35. 实际项目设计建议
 
 如果 Bloom Filter 用于商品、用户、订单等数据库主键过滤，可以考虑以下设计。
 
-### 初始化阶段
+#### 初始化阶段
 
 ```text
 Application Start
@@ -2290,7 +2290,7 @@ FROM product;
 
 ---
 
-### 新增数据
+#### 新增数据
 
 ```text
 INSERT DB
@@ -2320,7 +2320,7 @@ Bloom Filter
 
 ---
 
-### 删除数据
+#### 删除数据
 
 普通 Bloom Filter 不处理删除。
 
@@ -2352,7 +2352,7 @@ False Positive
 
 ---
 
-# 36. 总结
+## 36. 总结
 
 Bloom Filter 的核心结构非常简单：
 

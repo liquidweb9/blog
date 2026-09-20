@@ -26,7 +26,9 @@ export default withMermaid(defineConfig({
     hostname: `${siteUrl}${base}`
   },
   head: [
-    ['meta', { name: 'theme-color', content: '#3b67f2' }],
+    ['meta', { name: 'theme-color', content: '#faf9f6', media: '(prefers-color-scheme: light)' }],
+    ['meta', { name: 'theme-color', content: '#181e1b', media: '(prefers-color-scheme: dark)' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}logo.svg` }],
     ['meta', { name: 'author', content: '邓厚锐' }],
     ['meta', { name: 'robots', content: 'index, follow' }],
     ['meta', { name: 'google-site-verification', content: 'google1bd10f98672dc163.html' }],

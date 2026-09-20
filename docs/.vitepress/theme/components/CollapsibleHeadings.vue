@@ -80,9 +80,9 @@ function onClick(e: MouseEvent): void {
 
 function apply(): void {
   if (typeof document === 'undefined') return
-  const doc = document.querySelector('.vp-doc')
+  const doc = document.querySelector('.VPDoc .vp-doc')
   if (!doc) return
-  doc.querySelectorAll('h2, h3, h4').forEach((heading) => {
+  doc.querySelectorAll('h2[id], h3[id], h4[id]').forEach((heading) => {
     if (heading.querySelector(':scope > .vp-collapse-toggle')) return
     if (!hasCollapsibleContent(heading)) return
     const btn = document.createElement('button')
@@ -120,4 +120,4 @@ watch(() => route.path, () => {
 })
 </script>
 
-<template></template>
+<template><span hidden aria-hidden="true"></span></template>

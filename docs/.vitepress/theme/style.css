@@ -202,11 +202,11 @@ body { text-rendering: optimizeLegibility; }
 .topic-card:hover .topic-bottom > .site-icon { transform: translateX(3px); }
 
 .writing-layout { display: grid; grid-template-columns: minmax(0, 1fr) 286px; align-items: start; gap: 38px; }
-.writing-filters { display: flex; align-items: center; gap: 6px; padding-bottom: 15px; border-bottom: 1px solid var(--vp-c-divider); }
-.writing-filters button { padding: 5px 12px; border: 1px solid transparent; border-radius: 5px; color: var(--vp-c-text-2); font-size: 11px; line-height: 1.8; transition: background-color 160ms; }
+.writing-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding-bottom: 15px; border-bottom: 1px solid var(--vp-c-divider); }
+.writing-filters button { flex-shrink: 0; padding: 5px 12px; border: 1px solid transparent; border-radius: 5px; color: var(--vp-c-text-2); font-size: 11px; line-height: 1.8; white-space: nowrap; transition: background-color 160ms; }
 .writing-filters button:hover { background: var(--vp-c-bg-soft); }
 .writing-filters button.selected { color: var(--vp-c-brand-1); background: var(--vp-c-brand-soft); border-color: color-mix(in srgb, var(--vp-c-brand-1) 15%, transparent); }
-.feed-label { margin-left: auto; font-size: 10px; color: var(--vp-c-text-3); }
+.feed-label { margin-left: auto; font-size: 10px; color: var(--vp-c-text-3); white-space: nowrap; }
 .writing-entry { display: flex; align-items: center; gap: 20px; padding: 21px 0; border-bottom: 1px solid var(--vp-c-divider); }
 .writing-entry time { display: flex; flex: 0 0 53px; flex-direction: column; align-items: center; gap: 4px; color: var(--vp-c-text-3); font-family: var(--vp-font-family-mono); }
 .writing-entry time strong { color: var(--vp-c-text-2); font-size: 26px; line-height: 1; font-weight: 400; }
@@ -323,7 +323,7 @@ body { text-rendering: optimizeLegibility; }
   .VPNavBarSearch .DocSearch-Button-Keys { display: none; }
   .VPNavBarSearch .DocSearch-Search-Icon { margin: 0; }
   .VPNavBarMenu .VPNavBarMenuLink,
-  .VPNavBarMenuGroup > .button { padding: 0 10px; }
+  .VPNavBarMenuGroup > .button { padding: 0 7px; }
 }
 @media (max-width: 1100px) {
   .garden-hero { gap: 36px; }
@@ -434,6 +434,8 @@ body { text-rendering: optimizeLegibility; }
   .topic-bottom { padding-top: 12px; }
   .section-heading h2 { font-size: 20px; }
   .text-link { gap: 6px; font-size: 11px; }
+  .writing-filters button { padding: 5px 10px; }
+  .feed-label { display: none; }
   .writing-entry { gap: 12px; }
   .writing-entry time { flex-basis: 44px; }
   .entry-copy h3 { font-size: 13px; }

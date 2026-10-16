@@ -140,6 +140,7 @@ export default withMermaid(defineConfig({
           { text: '密码学与隐私计算', link: '/notes/cryptography/' }
         ]
       },
+      { text: '论文研读', link: '/papers/' },
       { text: '每日技术', link: '/daily/' },
       { text: '项目实践', link: '/projects/' },
       { text: '开发日志', link: '/devlog/' },
@@ -312,6 +313,31 @@ export default withMermaid(defineConfig({
             { text: '隐私增强协议与差分隐私', link: '/notes/cryptography/06-privacy-enhancing-protocols-and-differential-privacy' },
             { text: '后量子密码与可信硬件', link: '/notes/cryptography/07-post-quantum-cryptography' },
             { text: '联邦学习与密码系统安全', link: '/notes/cryptography/08-federated-learning-and-cryptosystem-security' }
+          ]
+        }
+      ],
+      '/papers/': [
+        {
+          text: '论文研读札记',
+          items: [
+            { text: '专栏总览', link: '/papers/' },
+            { text: '论文研读模板', link: '/papers/template' }
+          ]
+        },
+        {
+          text: '研究方向',
+          items: [
+            { text: '大模型与智能体', link: '/papers/llm-agents/' },
+            { text: '计算机视觉与多模态', link: '/papers/computer-vision/' },
+            { text: '系统与后端', link: '/papers/systems/' },
+            { text: '密码学与隐私计算', link: '/papers/cryptography/' }
+          ]
+        },
+        {
+          text: '大模型与智能体研读',
+          collapsed: false,
+          items: [
+            { text: 'Weaver：弱验证器集成与蒸馏', link: '/papers/llm-agents/2026-10-16-weaver' }
           ]
         }
       ],

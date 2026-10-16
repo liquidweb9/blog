@@ -5,7 +5,7 @@ export interface RecentItem {
   title: string
   description: string
   url: string
-  kind: 'daily' | 'devlog' | 'notes' | 'projects'
+  kind: 'daily' | 'devlog' | 'notes' | 'projects' | 'papers'
 }
 
 function formatDate(value: unknown): string {
@@ -20,7 +20,7 @@ function formatDate(value: unknown): string {
   return ''
 }
 
-export default createContentLoader(['daily/*/*/*.md', 'devlog/*/*/*.md', 'notes/*/*.md', 'projects/*.md'], {
+export default createContentLoader(['daily/*/*/*.md', 'devlog/*/*/*.md', 'notes/*/*.md', 'projects/*.md', 'papers/*/*.md'], {
   excerpt: true,
   transform(data): RecentItem[] {
     const items: RecentItem[] = []
@@ -36,7 +36,9 @@ export default createContentLoader(['daily/*/*/*.md', 'devlog/*/*/*.md', 'notes/
           ? 'devlog'
           : url.startsWith('/projects/')
             ? 'projects'
-            : 'notes'
+            : url.startsWith('/papers/')
+              ? 'papers'
+              : 'notes'
 
       if (!date && kind === 'devlog') {
         const match = url.match(/(\d{4})-(\d{2})-(\d{2})/)

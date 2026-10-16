@@ -10,6 +10,7 @@ const kindLabel: Record<string, string> = {
   daily: '每日技术',
   devlog: '开发日志',
   notes: '学习笔记',
+  papers: '论文研读',
   projects: '项目'
 }
 
@@ -17,6 +18,7 @@ const filter = ref('all')
 const filters = [
   { value: 'all', label: '全部' },
   { value: 'daily', label: '每日技术' },
+  { value: 'papers', label: '论文研读' },
   { value: 'devlog', label: '开发日志' }
 ]
 const recent = computed(() => recentItems.filter((item) => filter.value === 'all' || item.kind === filter.value).slice(0, 5))
@@ -122,6 +124,7 @@ function projectIcon(tags: string[]): string {
             <p>喜欢追问「为什么」，也喜欢亲手把答案做出来。相信扎实的理解，来自一次次真实的实践。</p>
             <a class="text-link" :href="withBase('/about/')">多了解我一点 <SiteIcon name="arrow" /></a>
           </div>
+          <a class="devlog-note" :href="withBase('/papers/')"><span class="icon-tile"><SiteIcon name="book" /></span><span><strong>论文研读札记</strong><small>原图拆解、贡献分析与研究延伸</small></span><SiteIcon name="diagonal" /></a>
           <a class="devlog-note" :href="withBase('/devlog/')"><span class="icon-tile"><SiteIcon name="pen" /></span><span><strong>开发现场</strong><small>问题、决策与迭代的真实记录</small></span><SiteIcon name="diagonal" /></a>
         </aside>
       </div>

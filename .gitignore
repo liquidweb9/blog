@@ -4,3 +4,8 @@ docs/.vitepress/dist
 .DS_Store
 *.local
 .playwright-mcp
+
+# Keep original papers locally or in cloud storage, outside the published site.
+/paper-originals/*
+!/paper-originals/README.md
+!/paper-originals/sources.md

@@ -1,6 +1,7 @@
 import { createContentLoader } from 'vitepress'
-import { writeFileSync, mkdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs'
+import { join, extname } from 'node:path'
+import { createHash } from 'node:crypto'
 import type { SiteConfig } from 'vitepress'
 
 interface FeedItem {
@@ -44,8 +45,44 @@ function stripHtml(html: string): string {
     .trim()
 }
 
+function prepareFeedHtml(html: string, url: string, siteUrl: string, siteConfig: SiteConfig): string {
+  const pageUrl = new URL(url.replace(/^\//, ''), siteUrl)
+  const base = new URL(siteUrl).pathname
+
+  // Markdown images are bundled by Vite for pages, but the content loader keeps source paths.
+  // Publish a stable feed copy so RSS readers can load the same local figures.
+  const content = html.replace(/(<img\b[^>]*\bsrc=")([^"]+)(")/g, (match, prefix, src, suffix) => {
+    if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(src)) return match
+
+    const imageUrl = new URL(src, pageUrl)
+    const relativePath = decodeURIComponent(imageUrl.pathname.startsWith(base)
+      ? imageUrl.pathname.slice(base.length)
+      : imageUrl.pathname.replace(/^\//, ''))
+    const sourcePath = join(siteConfig.srcDir, relativePath)
+    const publicPath = join(siteConfig.srcDir, 'public', relativePath)
+    const filePath = existsSync(sourcePath) ? sourcePath : publicPath
+    if (!existsSync(filePath)) return match
+
+    const image = readFileSync(filePath)
+    const hash = createHash('sha256').update(image).digest('hex').slice(0, 16)
+    const name = `${hash}${extname(filePath)}`
+    const outDir = join(siteConfig.outDir, 'rss-assets')
+    mkdirSync(outDir, { recursive: true })
+    writeFileSync(join(outDir, name), image)
+    return `${prefix}${new URL(`rss-assets/${name}`, siteUrl).href}${suffix}`
+  })
+
+  return content.replace(/(<(?:a|img)\b[^>]*?\s)(href|src)="([^"]+)"/g, (match, prefix, attribute, value) => {
+    if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(value)) return match
+    return `${prefix}${attribute}="${new URL(value, pageUrl).href}"`
+  })
+}
+
 export async function generateRss(siteConfig: SiteConfig): Promise<void> {
-  const contentLoader = createContentLoader('daily/*/*/*.md', {
+  const host = 'https://liquidweb9.github.io'
+  const base = siteConfig.site.base || '/blog/'
+  const siteUrl = `${host}${base}`
+  const contentLoader = createContentLoader(['daily/*/*/*.md', 'papers/*/*.md'], {
     render: true,
     excerpt: true
   })
@@ -58,13 +95,10 @@ export async function generateRss(siteConfig: SiteConfig): Promise<void> {
       const title = typeof frontmatter.title === 'string' ? frontmatter.title : ''
       const description = typeof frontmatter.description === 'string' ? frontmatter.description : ''
 
-      return { title, date, url, description, html: html || '' } as FeedItem
+      return { title, date, url, description, html: prepareFeedHtml(html || '', url, siteUrl, siteConfig) } as FeedItem
     })
     .filter((item) => item.date && item.title)
     .sort((a, b) => b.date.localeCompare(a.date))
-
-  const host = 'https://liquidweb9.github.io'
-  const base = siteConfig.site.base || '/blog/'
 
   const channel = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">

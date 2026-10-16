@@ -1,0 +1,19 @@
+{
+  "paper": "Weaver: Shrinking the Generation-Verification Gap by Scaling Compute for Verification",
+  "pdfTitle": "WEAVER: Shrinking the Generation-Verification Gap with Weak Verifiers",
+  "authors": "Jon Saad-Falcon et al.",
+  "source": "https://openreview.net/pdf?id=dRjt4vlYVQ",
+  "retrieved": "2026-10-16",
+  "pdfAttachment": "/pdf/e96545cd91e3d21ec915c2a775d66c7fe5f57eb6.pdf",
+  "pdfSha256": "eba6b3f0d2e101b6f9918cf27b2cb4da408b15b110736c48a91a543e9f8198b6",
+  "license": "CC BY 4.0",
+  "changes": "Cropped figures from the OpenReview PDF, omitted captions and surrounding text, rendered at 3x and encoded as WebP. No changes to figure content.",
+  "figures": [
+    { "file": "fig-1-overview.webp", "figure": 1, "page": 3, "clip": [108, 72, 505, 200] },
+    { "file": "fig-2-weighted-ensembles.webp", "figure": 2, "page": 5, "clip": [108, 198, 505, 314] },
+    { "file": "fig-3-sampling.webp", "figure": 3, "page": 8, "clip": [108, 70, 505, 206] },
+    { "file": "fig-4-verifiers.webp", "figure": 4, "page": 8, "clip": [108, 491, 505, 606] },
+    { "file": "fig-6-distillation.webp", "figure": 6, "page": 9, "clip": [304, 423, 505, 607] },
+    { "file": "fig-15-distillation-process.webp", "figure": 15, "page": 41, "clip": [108, 595, 505, 702] }
+  ]
+}

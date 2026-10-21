@@ -339,6 +339,13 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'Weaver：弱验证器集成与蒸馏', link: '/papers/llm-agents/2026-10-16-weaver' }
           ]
+        },
+        {
+          text: '密码学与隐私计算研读',
+          collapsed: false,
+          items: [
+            { text: 'FedSVD：私有联邦 LoRA 与正交重参数化', link: '/papers/cryptography/2026-10-21-fedsvd' }
+          ]
         }
       ],
       '/daily/': [

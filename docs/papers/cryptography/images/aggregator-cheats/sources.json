@@ -1,0 +1,14 @@
+{
+  "paper": "When the Aggregator Cheats: Data-Free Backdoors in Federated LLM-based QA Systems",
+  "authors": ["Chenqing Zhu", "Yanbo Dai", "Yulong Tian", "Qingming Li", "Songze Li"],
+  "version": "arXiv:2606.27511v1",
+  "source": "https://arxiv.org/pdf/2606.27511v1",
+  "downloaded": "2026-10-29",
+  "license": "arXiv perpetual non-exclusive distribution license; no Creative Commons reuse license stated for the paper",
+  "changes": "Cropped original figures, converted to lossless WebP; no added labels or content changes. Captions supplied in the article.",
+  "figures": [
+    {"figure": 1, "pdf_page": 1, "crop_points": [317, 251, 558, 379], "scale": 4, "file": "fig-1-threat-model.webp"},
+    {"figure": 2, "pdf_page": 5, "crop_points": [52, 69, 558, 259], "scale": 3.5, "file": "fig-2-pipeline.webp"},
+    {"figure": 3, "pdf_page": 7, "source_image_bbox": [54, 72.0001, 294.1005, 308.845], "file": "fig-3-token-importance.webp"}
+  ]
+}

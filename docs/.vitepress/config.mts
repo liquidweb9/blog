@@ -344,6 +344,8 @@ export default withMermaid(defineConfig({
           text: '密码学与隐私计算研读',
           collapsed: false,
           items: [
+            { text: 'LA-LoRA：本地交替与私有梯度滤波', link: '/papers/cryptography/2026-11-02-la-lora' },
+            { text: 'RoLoRA：交替优化与精确聚合', link: '/papers/cryptography/2026-11-02-rolora' },
             { text: 'Aggregator Cheats：梯度泄露与联邦问答后门', link: '/papers/cryptography/2026-10-29-aggregator-cheats' },
             { text: 'FedSVD：私有联邦 LoRA 与正交重参数化', link: '/papers/cryptography/2026-10-21-fedsvd' }
           ]

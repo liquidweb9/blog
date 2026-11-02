@@ -1,0 +1,44 @@
+{
+  "source": "https://arxiv.org/pdf/2602.19926v1",
+  "authors": [
+    "Jin Liu",
+    "Yinbin Miao",
+    "Ning Xi",
+    "Junkang Liu"
+  ],
+  "license": "CC BY 4.0",
+  "figures": [
+    {
+      "figure": 1,
+      "pdf_page": 2,
+      "bbox": [
+        111.96099853515625,
+        81.86192321777344,
+        500.0412902832031,
+        178.59600830078125
+      ],
+      "file": "fig-1-comparison.webp",
+      "size": [
+        2400,
+        598
+      ],
+      "processing": "Complete embedded image extracted; resized to maximum width 2400; WebP quality 92. No labels or data changed."
+    },
+    {
+      "figure": 5,
+      "pdf_page": 6,
+      "bbox": [
+        123.83999633789062,
+        81.86054229736328,
+        488.1817626953125,
+        177.593994140625
+      ],
+      "file": "fig-5-framework.webp",
+      "size": [
+        2400,
+        631
+      ],
+      "processing": "Complete embedded image extracted; resized to maximum width 2400; WebP quality 92. No labels or data changed."
+    }
+  ]
+}

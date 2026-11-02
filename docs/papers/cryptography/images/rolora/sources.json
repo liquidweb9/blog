@@ -1,0 +1,71 @@
+{
+  "paper": "Robust Federated Finetuning of LLMs via Alternating Optimization of LoRA",
+  "authors": [
+    "Shuangyi Chen",
+    "Yuanxin Guo",
+    "Yue Ju",
+    "Hardik Dalal",
+    "Zhongwen Zhu",
+    "Ashish Khisti"
+  ],
+  "version": "arXiv:2502.01755v4",
+  "source": "https://arxiv.org/pdf/2502.01755v4",
+  "downloaded": "2026-11-02",
+  "license": "CC BY 4.0 according to arXiv v4 metadata; PDF checklist p52 separately states CC BY-NC-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "changes": "Cropped from PDF at 4x resolution and converted to WebP; original labels retained, captions supplied in article.",
+  "figures": [
+    {
+      "figure": 1,
+      "pdf_page": 2,
+      "crop_points": [
+        114,
+        69,
+        498,
+        132
+      ],
+      "file": "fig-1-overview.webp",
+      "width": 1536,
+      "height": 252
+    },
+    {
+      "figure": 2,
+      "pdf_page": 7,
+      "crop_points": [
+        303,
+        175,
+        507,
+        260
+      ],
+      "file": "fig-2-nonlinear.webp",
+      "width": 816,
+      "height": 340
+    },
+    {
+      "figure": 5,
+      "pdf_page": 9,
+      "crop_points": [
+        359,
+        420,
+        505,
+        526
+      ],
+      "file": "fig-5-learning-a.webp",
+      "width": 584,
+      "height": 424
+    },
+    {
+      "figure": 12,
+      "pdf_page": 45,
+      "crop_points": [
+        134,
+        68,
+        475,
+        148
+      ],
+      "file": "fig-12-communication.webp",
+      "width": 1364,
+      "height": 320
+    }
+  ]
+}

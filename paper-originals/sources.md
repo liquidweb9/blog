@@ -9,6 +9,7 @@
 | When the Aggregator Cheats: Data-Free Backdoors in Federated LLM-based QA Systems | [USENIX](https://www.usenix.org/conference/usenixsecurity26/presentation/zhu-chenqing) · [arXiv v1](https://arxiv.org/abs/2606.27511v1) · [v1 PDF](https://arxiv.org/pdf/2606.27511v1) | arXiv v1，2026-06-25；2026-10-29 下载，20 页 | `cryptography/2026-aggregator-cheats/paper.pdf` | 未设置 |
 | Robust Federated Finetuning of LLMs via Alternating Optimization of LoRA | [arXiv](https://arxiv.org/abs/2502.01755) · [v4 PDF](https://arxiv.org/pdf/2502.01755v4) · [OpenReview](https://openreview.net/forum?id=e8DrPuJekZ) | arXiv v4，2025-10-11 修订；2026-11-02 下载，53 页 | `cryptography/2025-rolora/paper.pdf` | 未设置 |
 | Rethinking LoRA for Privacy-Preserving Federated Learning in Large Models | [arXiv v1](https://arxiv.org/abs/2602.19926v1) · [v1 PDF](https://arxiv.org/pdf/2602.19926v1) | arXiv v1，2026-02-23；2026-11-02 下载，36 页 | `cryptography/2026-la-lora/paper.pdf` | 未设置 |
+| FedRot-LoRA: Mitigating Rotational Misalignment in Federated LoRA | [arXiv v3](https://arxiv.org/abs/2602.23638v3) · [v3 PDF](https://arxiv.org/pdf/2602.23638v3) | arXiv v3，2026-06-11；2026-11-16 下载，23 页 | `cryptography/2026-fedrot-lora/paper.pdf` | 未设置 |
 
 本地原稿位置相对于 `paper-originals/`。新增论文时，补充完整标题、官方 URL、版本或修订日期和实际保存位置；分享链接按需填写。
 
@@ -77,3 +78,16 @@
 - 对应文章：[`docs/papers/cryptography/2026-11-02-la-lora.md`](../docs/papers/cryptography/2026-11-02-la-lora.md)。原图 1、5 从 PDF 完整嵌入图提取，缩放转换为 WebP；记录见配图 `sources.json`。
 - 作者提供的[匿名代码状态页](https://anonymous.4open.science/status/LA-LORA-50E5/)可访问，未核查完整实现或复现训练。已验算说明例子的梯度、裁剪、两端聚合和滤波方差。
 - 本地保存 PDF、提取文本、元数据、研读包与提图/验算脚本；原稿和工作资料不随站点发布。模型无法视觉读取图像，未声称完成图内标签视觉审校。
+
+## FedRot-LoRA 原稿记录
+
+- 下载日期：2026-11-16；主版本 `arXiv:2602.23638v3`，2026-06-11，ICML 2026。
+- 标题：*FedRot-LoRA: Mitigating Rotational Misalignment in Federated LoRA*。
+- 作者：Haoran Zhang、Dongjun Kim、Seohyeon Cha、Haris Vikalo。
+- 官方全文：[固定版本 PDF](https://arxiv.org/pdf/2602.23638v3) · [同版本 HTML](https://arxiv.org/html/2602.23638v3)。23 页，包含附录 A、B。
+- 文件大小：975,971 字节；SHA-256：`3b387edae5d158d28c3cb5e23486eae9d772daaebb312232d85efd401429f287`。
+- 原稿许可：[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)，依据固定 arXiv 页面与 PDF 元数据。
+- 对应文章：[`docs/papers/cryptography/2026-11-16-fedrot-lora.md`](../docs/papers/cryptography/2026-11-16-fedrot-lora.md)。配图采用同版本 HTML 的完整 SVG，原图 1、3，来源见配图目录 `sources.json`。
+- 官方实现：[haoran-zh/FedRot-LoRA](https://github.com/haoran-zh/FedRot-LoRA)，核对提交 `70bfdc7ec6f8cddfd3bb87cb2b71b154041d27b1` 的软旋转工具与客户端调用，未执行训练复现。
+- 已验算秩 2 双客户端例子的局部乘积、三档软旋转、聚合结果、误差范数与主表百分点差值；已记录主文软投影转置与附录定义/实现的差异。
+- 本地保存 PDF、提取文本、元数据、研读包及验算脚本，均不进入 Git 或站点；本次不能进行图片视觉审校，不声称完成图面细节检查。

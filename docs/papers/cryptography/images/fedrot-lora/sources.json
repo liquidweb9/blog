@@ -1,0 +1,35 @@
+{
+  "source": "https://arxiv.org/pdf/2602.23638v3",
+  "authors": [
+    "Haoran Zhang",
+    "Dongjun Kim",
+    "Seohyeon Cha",
+    "Haris Vikalo"
+  ],
+  "license": "CC BY 4.0",
+  "figures": [
+    {
+      "figure": 1,
+      "pdf_page": 2,
+      "file": "fig-1-overview.svg",
+      "source": "https://arxiv.org/html/2602.23638v3/overview-rot.svg",
+      "processing": "Complete corresponding arXiv HTML SVG figure; no labels or data changed."
+    },
+    {
+      "figure": 3,
+      "panel": "a",
+      "pdf_page": 9,
+      "file": "fig-3a-mnli-soft.svg",
+      "source": "https://arxiv.org/html/2602.23638v3/MNLI_soft_brokenaxes.svg",
+      "processing": "Complete MNLI panel from arXiv HTML; displayed separately, no labels or data changed."
+    },
+    {
+      "figure": 3,
+      "panel": "b",
+      "pdf_page": 9,
+      "file": "fig-3b-qqp-soft.svg",
+      "source": "https://arxiv.org/html/2602.23638v3/QQP_soft_brokenaxes.svg",
+      "processing": "Complete QQP panel from arXiv HTML; displayed separately, no labels or data changed."
+    }
+  ]
+}

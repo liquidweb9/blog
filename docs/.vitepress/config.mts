@@ -341,6 +341,13 @@ export default withMermaid(defineConfig({
           ]
         },
         {
+          text: '计算机视觉与多模态研读',
+          collapsed: false,
+          items: [
+            { text: 'DGP：逐层动态视觉路由', link: '/papers/computer-vision/2026-11-26-dgp' }
+          ]
+        },
+        {
           text: '密码学与隐私计算研读',
           collapsed: false,
           items: [

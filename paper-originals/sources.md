@@ -10,6 +10,7 @@
 | Robust Federated Finetuning of LLMs via Alternating Optimization of LoRA | [arXiv](https://arxiv.org/abs/2502.01755) · [v4 PDF](https://arxiv.org/pdf/2502.01755v4) · [OpenReview](https://openreview.net/forum?id=e8DrPuJekZ) | arXiv v4，2025-10-11 修订；2026-11-02 下载，53 页 | `cryptography/2025-rolora/paper.pdf` | 未设置 |
 | Rethinking LoRA for Privacy-Preserving Federated Learning in Large Models | [arXiv v1](https://arxiv.org/abs/2602.19926v1) · [v1 PDF](https://arxiv.org/pdf/2602.19926v1) | arXiv v1，2026-02-23；2026-11-02 下载，36 页 | `cryptography/2026-la-lora/paper.pdf` | 未设置 |
 | FedRot-LoRA: Mitigating Rotational Misalignment in Federated LoRA | [arXiv v3](https://arxiv.org/abs/2602.23638v3) · [v3 PDF](https://arxiv.org/pdf/2602.23638v3) | arXiv v3，2026-06-11；2026-11-16 下载，23 页 | `cryptography/2026-fedrot-lora/paper.pdf` | 未设置 |
+| Where to Connect? Boosting MLLMs via Dynamic Gated Pathways across ALL ViT and LLM Layers | [arXiv v1](https://arxiv.org/abs/2611.06844v1) · [v1 PDF](https://arxiv.org/pdf/2611.06844v1) | arXiv v1，2026-11-04；2026-11-26 下载，24 页 | `computer-vision/2026-dgp/paper.pdf` | 未设置 |
 
 本地原稿位置相对于 `paper-originals/`。新增论文时，补充完整标题、官方 URL、版本或修订日期和实际保存位置；分享链接按需填写。
 
@@ -91,3 +92,13 @@
 - 官方实现：[haoran-zh/FedRot-LoRA](https://github.com/haoran-zh/FedRot-LoRA)，核对提交 `70bfdc7ec6f8cddfd3bb87cb2b71b154041d27b1` 的软旋转工具与客户端调用，未执行训练复现。
 - 已验算秩 2 双客户端例子的局部乘积、三档软旋转、聚合结果、误差范数与主表百分点差值；已记录主文软投影转置与附录定义/实现的差异。
 - 本地保存 PDF、提取文本、元数据、研读包及验算脚本，均不进入 Git 或站点；本次不能进行图片视觉审校，不声称完成图面细节检查。
+
+## DGP 原稿记录
+
+- 下载日期：2026-11-26；主版本 `arXiv:2611.06844v1`，2026-11-04，NeurIPS 2026。
+- 作者：Yingying Yan、Jiaqi Tang、Wei Wei、Qianzhou Wang、Lei Zhang、Jianmin Chen、Yuyang Xia、Botong Geng、Jinjian Wu、Qifeng Chen。
+- 官方全文：[固定版本 PDF](https://arxiv.org/pdf/2611.06844v1) · [同版本 HTML](https://arxiv.org/html/2611.06844v1)。24 页，含附录 A–H。
+- 固定版本 URL 实际下载文件 12,468,603 字节；SHA-256：`e6e5746448cb68504ddad4edf6591b290af67fe2e863552af6b56b2685773156`。
+- 原稿许可：[arXiv 永久非独占分发许可](https://arxiv.org/licenses/nonexclusive-distrib/1.0/)。文章链接官方原图，配图为根据 §3 与附录 A 自绘的 SVG。
+- [官方实现](https://github.com/YingyingYan1/DGP)核对 `64e82c1960a8afc8ca6b3bd09369d1e415392f84` 的 LLaVA/Vicuna 生成路径，未重跑模型训练或评估。
+- 对应文章：[`docs/papers/computer-vision/2026-11-26-dgp.md`](../docs/papers/computer-vision/2026-11-26-dgp.md)。本地同目录另存提取文本、下载脚本和研读包，不随站点发布。
